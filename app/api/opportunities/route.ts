@@ -2,7 +2,7 @@ import { detectOpportunities } from '@/src/lib/arbitrage';
 import { config } from '@/src/lib/config';
 import { fetchAllQuotes } from '@/src/lib/sources';
 import { getRecentOpportunities, getUserByEmail, saveOpportunities } from '@/src/lib/db';
-import { getMinEdgeForPlan } from '@/src/lib/plans';
+import { filterOpportunitiesForPlan, getEdgeWindowForPlan } from '@/src/lib/plans';
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -18,10 +18,11 @@ export async function GET(req: Request) {
     plan = planParam;
   }
 
-  const minEdge = getMinEdgeForPlan(plan);
+  const edgeWindow = getEdgeWindowForPlan(plan);
 
   const { polymarket, kalshi } = await fetchAllQuotes();
-  const opportunities = detectOpportunities(polymarket, kalshi, minEdge);
+  const allPositive = detectOpportunities(polymarket, kalshi, 0);
+  const opportunities = filterOpportunitiesForPlan(plan, allPositive);
 
   // Store latest detection snapshots (MVP persistence).
   saveOpportunities(
@@ -41,7 +42,7 @@ export async function GET(req: Request) {
   return Response.json({
     ok: true,
     plan,
-    threshold: minEdge,
+    edgeWindow,
     sources: {
       polymarketCount: polymarket.length,
       kalshiCount: kalshi.length,

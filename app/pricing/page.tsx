@@ -59,7 +59,7 @@ export default function PricingPage() {
                   '20 alerts per day',
                   'Basic dashboard access',
                   'Telegram notifications',
-                  '5% minimum edge threshold',
+                  'Opportunities até 2% de edge',
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3">
                     <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,7 +90,7 @@ export default function PricingPage() {
                 {[
                   '500 alerts per day',
                   'Priority alert delivery',
-                  'Lower edge threshold (2%)',
+                  'Melhores oportunidades acima de 5%',
                   'Historical opportunity data',
                   'Email support',
                 ].map((feature, i) => (

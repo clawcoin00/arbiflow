@@ -15,7 +15,7 @@ type Opportunity = {
 
 type DataResponse = {
   plan: 'FREE' | 'PRO';
-  threshold: number;
+  edgeWindow: { minEdge: number; maxEdge?: number };
   opportunities: Opportunity[];
   sources: {
     polymarketCount: number;
@@ -29,6 +29,16 @@ export default function HomePage() {
   const [data, setData] = useState<DataResponse | null>(null);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
+
+  const edgeWindowLabel = (window?: { minEdge: number; maxEdge?: number }) => {
+    if (!window) return '-';
+    const min = (window.minEdge * 100).toFixed(0);
+    if (typeof window.maxEdge === 'number') {
+      const max = (window.maxEdge * 100).toFixed(0);
+      return `${min}% até ${max}%`;
+    }
+    return `acima de ${min}%`;
+  };
 
   const loadData = async (userEmail?: string) => {
     setLoading(true);
@@ -106,7 +116,7 @@ export default function HomePage() {
                     </div>
                     <div>
                       <div className="font-semibold text-emerald-400">Pro Plan Active</div>
-                      <div className="text-sm text-zinc-400">Viewing opportunities ≥ {(data.threshold * 100).toFixed(0)}%</div>
+                      <div className="text-sm text-zinc-400">Viewing opportunities {edgeWindowLabel(data.edgeWindow)}</div>
                     </div>
                   </div>
                   <button onClick={onLogout} className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors">
@@ -119,7 +129,7 @@ export default function HomePage() {
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>Free plan: viewing opportunities ≥ 5%. <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> to see ≥ 2%.</span>
+                    <span>Free plan: viewing oportunidades até 2%. <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> para ver as melhores acima de 5%.</span>
                   </div>
                   <div className="flex gap-2">
                     <input
@@ -147,8 +157,8 @@ export default function HomePage() {
                 <div className="text-zinc-400 text-sm mt-1">Active Opportunities</div>
               </div>
               <div className="card text-center">
-                <div className="text-3xl font-bold text-zinc-100">{(data.threshold * 100).toFixed(0)}%</div>
-                <div className="text-zinc-400 text-sm mt-1">Min Edge Threshold</div>
+                <div className="text-2xl font-bold text-zinc-100">{edgeWindowLabel(data.edgeWindow)}</div>
+                <div className="text-zinc-400 text-sm mt-1">Faixa de Edge</div>
               </div>
               <div className="card text-center">
                 <div className="text-3xl font-bold text-zinc-100">2</div>
