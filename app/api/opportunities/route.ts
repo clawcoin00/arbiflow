@@ -22,7 +22,15 @@ export async function GET(req: Request) {
 
   const { polymarket, kalshi } = await fetchAllQuotes();
   const allPositive = detectOpportunities(polymarket, kalshi, 0);
-  const opportunities = filterOpportunitiesForPlan(plan, allPositive);
+  let opportunities = filterOpportunitiesForPlan(plan, allPositive);
+
+  // UX fallback: avoid empty FREE dashboard when there are no edges <= 2%.
+  // In this case, show up to 5% so the table keeps useful signal.
+  let fallbackApplied = false;
+  if (plan === 'FREE' && opportunities.length === 0) {
+    opportunities = allPositive.filter((op) => op.edge <= 0.05);
+    fallbackApplied = true;
+  }
 
   // Store latest detection snapshots (MVP persistence).
   saveOpportunities(
@@ -43,6 +51,7 @@ export async function GET(req: Request) {
     ok: true,
     plan,
     edgeWindow,
+    fallbackApplied,
     sources: {
       polymarketCount: polymarket.length,
       kalshiCount: kalshi.length,

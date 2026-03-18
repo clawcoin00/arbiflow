@@ -16,6 +16,7 @@ type Opportunity = {
 type DataResponse = {
   plan: 'FREE' | 'PRO';
   edgeWindow: { minEdge: number; maxEdge?: number };
+  fallbackApplied?: boolean;
   opportunities: Opportunity[];
   sources: {
     polymarketCount: number;
@@ -131,6 +132,11 @@ export default function HomePage() {
                     </svg>
                     <span>Free plan: viewing oportunidades até 2%. <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> para ver as melhores acima de 5%.</span>
                   </div>
+                  {data?.fallbackApplied && (
+                    <div className="text-amber-400 text-sm">
+                      Sem oportunidades na faixa até 2% agora — exibindo fallback até 5% para não ficar vazio.
+                    </div>
+                  )}
                   <div className="flex gap-2">
                     <input
                       type="email"
