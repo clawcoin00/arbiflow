@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
 
 export default function PricingPage() {
   const [email, setEmail] = useState('');
@@ -29,31 +27,55 @@ export default function PricingPage() {
   };
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen pt-24 pb-16">
-        <section className="max-w-5xl mx-auto px-6 py-12">
-          {/* Header */}
-          <div className="text-center space-y-4 mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold">
-              Simple, <span className="gradient-text">Transparent</span> Pricing
-            </h1>
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-              Start free and upgrade when you need more alerts.
+    <div className="min-h-screen">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0a0a0b]/90 backdrop-blur-xl">
+        <div className="container-editorial flex items-center justify-between h-16">
+          <a href="/" className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+              <span className="text-mono text-xs font-bold text-black">AF</span>
+            </div>
+            <span className="heading-display text-xl tracking-tight">ArbiFlow</span>
+          </a>
+          
+          <div className="hidden md:flex items-center gap-8">
+            <a href="/" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Dashboard</a>
+            <a href="/pricing" className="text-mono text-xs text-white">Pricing</a>
+            <a href="/admin" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Admin</a>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <section className="pt-32 pb-16">
+        <div className="container-editorial">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h1 className="heading-mono text-xs text-zinc-500 mb-4">Pricing</h1>
+            <p className="heading-display text-4xl md:text-5xl text-white">
+              Simple, Transparent
+            </p>
+            <p className="text-lg text-zinc-400 font-light">
+              Start free. Upgrade when you need more signals.
             </p>
           </div>
+        </div>
+      </section>
 
-          {/* Pricing Cards */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      {/* Pricing Cards */}
+      <section className="py-8">
+        <div className="container-editorial">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {/* Free Plan */}
-            <div className="card">
+            <div className="card-elevated">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-2">Free</h2>
+                <div className="plan-badge-free mb-4 inline-block">FREE</div>
+                <h2 className="heading-display text-2xl text-white mb-2">Explorer</h2>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">$0</span>
-                  <span className="text-zinc-500">/month</span>
+                  <span className="heading-display text-4xl text-white">$0</span>
+                  <span className="text-mono text-xs text-zinc-500">/month</span>
                 </div>
               </div>
+              
               <ul className="space-y-4 mb-8">
                 {[
                   '20 alerts per day',
@@ -62,30 +84,34 @@ export default function PricingPage() {
                   'Opportunities até 2% de edge',
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-zinc-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-zinc-300">{feature}</span>
+                    <span className="text-sm text-zinc-300">{feature}</span>
                   </li>
                 ))}
               </ul>
+              
               <button className="btn-secondary w-full" disabled>
                 Current Plan
               </button>
             </div>
 
             {/* Pro Plan */}
-            <div className="card-highlight glow">
-              <div className="absolute top-0 right-0 bg-emerald-500 text-zinc-900 text-xs font-bold px-3 py-1 rounded-bl-lg">
-                POPULAR
+            <div className="card-elevated relative border-emerald-500/20 animate-pulse-glow">
+              <div className="absolute top-4 right-4">
+                <div className="plan-badge-pro">POPULAR</div>
               </div>
+              
               <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-2">Pro</h2>
+                <div className="plan-badge-pro mb-4 inline-block">PRO</div>
+                <h2 className="heading-display text-2xl text-white mb-2">Professional</h2>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold gradient-text">$99</span>
-                  <span className="text-zinc-500">/month</span>
+                  <span className="heading-display text-4xl gradient-text">$99</span>
+                  <span className="text-mono text-xs text-zinc-500">/month</span>
                 </div>
               </div>
+              
               <ul className="space-y-4 mb-8">
                 {[
                   '500 alerts per day',
@@ -95,18 +121,19 @@ export default function PricingPage() {
                   'Email support',
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-zinc-300">{feature}</span>
+                    <span className="text-sm text-white">{feature}</span>
                   </li>
                 ))}
               </ul>
+              
               <div className="space-y-3">
                 <input
                   type="email"
-                  className="input"
-                  placeholder="Enter your email"
+                  className="input-refined"
+                  placeholder="email@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -115,44 +142,57 @@ export default function PricingPage() {
                   onClick={onUpgrade}
                   disabled={loading || !email}
                 >
-                  {loading ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      Processing...
-                    </span>
-                  ) : (
-                    'Upgrade to Pro'
-                  )}
+                  {loading ? 'Processing...' : 'Upgrade to Pro'}
                 </button>
                 {error && (
-                  <p className="text-red-400 text-sm text-center">{error}</p>
+                  <p className="text-mono text-[10px] text-red-400 text-center">{error}</p>
                 )}
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* FAQ */}
-          <div className="mt-20 max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+      {/* FAQ */}
+      <section className="py-16">
+        <div className="container-editorial">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="heading-mono text-xs text-zinc-500 text-center mb-8">FAQ</h2>
+            
             <div className="space-y-4">
               {[
                 { q: 'What payment methods do you accept?', a: 'We accept all major credit cards through Stripe.' },
                 { q: 'Can I cancel anytime?', a: 'Yes, you can cancel your subscription at any time. No questions asked.' },
                 { q: 'How are alerts delivered?', a: 'Alerts are sent instantly to your Telegram when opportunities are detected.' },
               ].map((faq, i) => (
-                <div key={i} className="card">
-                  <h3 className="font-semibold mb-2">{faq.q}</h3>
-                  <p className="text-zinc-400">{faq.a}</p>
+                <div key={i} className="card-elevated">
+                  <h3 className="heading-display text-lg text-white mb-2">{faq.q}</h3>
+                  <p className="text-sm text-zinc-400">{faq.a}</p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-8 mt-auto">
+        <div className="container-editorial">
+          <div className="flex items-center justify-center gap-6">
+            <a href="/" className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider">
+              Dashboard
+            </a>
+            <a 
+              href="https://t.me/ArbiFlowAnnouncements" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"
+            >
+              Telegram
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

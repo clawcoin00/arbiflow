@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
 
 type Opportunity = {
   eventKey: string;
@@ -36,9 +34,9 @@ export default function HomePage() {
     const min = (window.minEdge * 100).toFixed(0);
     if (typeof window.maxEdge === 'number') {
       const max = (window.maxEdge * 100).toFixed(0);
-      return `${min}% até ${max}%`;
+      return `${min}%–${max}%`;
     }
-    return `acima de ${min}%`;
+    return `${min}%+`;
   };
 
   const loadData = async (userEmail?: string) => {
@@ -51,7 +49,6 @@ export default function HomePage() {
       const json = await res.json();
       setData(json);
     } catch {
-      // fallback to FREE plan
       const res = await fetch('/api/opportunities?plan=FREE');
       const json = await res.json();
       setData(json);
@@ -76,112 +73,175 @@ export default function HomePage() {
   };
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen pt-24 pb-16">
-        {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-6 py-12">
-          <div className="text-center space-y-6 mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Live Monitoring Active
+    <div className="min-h-screen">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0a0a0b]/90 backdrop-blur-xl">
+        <div className="container-editorial flex items-center justify-between h-16">
+          <a href="/" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+              <span className="text-mono text-xs font-bold text-black">AF</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-              <span className="gradient-text">ArbiFlow</span>
+            <span className="heading-display text-xl tracking-tight">ArbiFlow</span>
+          </a>
+          
+          <div className="hidden md:flex items-center gap-8">
+            <a href="/" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Dashboard</a>
+            <a href="/pricing" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Pricing</a>
+            <a href="/admin" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Admin</a>
+            <a 
+              href="https://t.me/ArbiFlowAnnouncements" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="btn-secondary text-xs py-2 px-4"
+            >
+              Telegram
+            </a>
+          </div>
+
+          {/* Mobile menu button */}
+          <button className="md:hidden p-2 text-zinc-400 hover:text-white">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-16">
+        <div className="container-editorial">
+          <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in-up">
+            {/* Status Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-mono text-[10px] font-bold tracking-widest text-emerald-400 uppercase">Live Monitoring</span>
+            </div>
+
+            {/* Main Heading */}
+            <h1 className="heading-display text-5xl md:text-7xl lg:text-8xl leading-[0.9]">
+              <span className="text-white">Arbitrage</span>
+              <br />
+              <span className="gradient-text">Intelligence</span>
             </h1>
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-              Real-time arbitrage opportunity detection between{' '}
-              <span className="text-zinc-100 font-medium">Polymarket</span> and{' '}
-              <span className="text-zinc-100 font-medium">Kalshi</span>
+
+            {/* Subtitle */}
+            <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+              Real-time opportunity detection across{' '}
+              <span className="text-white font-medium">Polymarket</span> and{' '}
+              <span className="text-white font-medium">Kalshi</span>. 
+              <br className="hidden md:block" />
+              Zero execution. Pure signals.
             </p>
-            <div className="flex items-center justify-center gap-4 pt-4">
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <a href="/pricing" className="btn-primary">
                 Get Started
               </a>
-              <a href="https://t.me/ArbiFlowAnnouncements" target="_blank" rel="noopener noreferrer" className="btn-secondary">
+              <a 
+                href="https://t.me/ArbiFlowAnnouncements" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn-secondary"
+              >
                 Join Telegram
               </a>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Stats */}
-          {data && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-              <div className="card text-center">
-                <div className="text-3xl font-bold gradient-text">{data.opportunities.length}</div>
-                <div className="text-zinc-400 text-sm mt-1">Active Opportunities</div>
+      {/* Stats Section */}
+      {data && (
+        <section className="py-8">
+          <div className="container-editorial">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="stat-card animate-fade-in-up stagger-1">
+                <div className="stat-value gradient-text">{data.opportunities.length}</div>
+                <div className="stat-label">Opportunities</div>
               </div>
-              <div className="card text-center">
-                <div className="text-2xl font-bold text-zinc-100">{edgeWindowLabel(data.edgeWindow)}</div>
-                <div className="text-zinc-400 text-sm mt-1">Faixa de Edge</div>
+              <div className="stat-card animate-fade-in-up stagger-2">
+                <div className="stat-value text-white">{edgeWindowLabel(data.edgeWindow)}</div>
+                <div className="stat-label">Edge Range</div>
               </div>
-              <div className="card text-center">
-                <div className="text-3xl font-bold text-zinc-100">2</div>
-                <div className="text-zinc-400 text-sm mt-1">Markets Monitored</div>
+              <div className="stat-card animate-fade-in-up stagger-3">
+                <div className="stat-value text-white">2</div>
+                <div className="stat-label">Markets</div>
               </div>
-              <div className="card text-center">
-                <div className={`text-3xl font-bold ${data.sources.usingMock ? 'text-yellow-400' : 'text-emerald-400'}`}>
+              <div className="stat-card animate-fade-in-up stagger-4">
+                <div className={`stat-value ${data.sources.usingMock ? 'text-amber-400' : 'text-emerald-400'}`}>
                   {data.sources.usingMock ? 'Demo' : 'Live'}
                 </div>
-                <div className="text-zinc-400 text-sm mt-1">Data Source</div>
+                <div className="stat-label">Status</div>
               </div>
             </div>
-          )}
+          </div>
         </section>
+      )}
 
-        {/* Opportunities Table */}
-        <section className="max-w-7xl mx-auto px-6">
-          <div className="card glow">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">Current Opportunities</h2>
-              {data && (
-                <span className="text-zinc-500 text-sm">
-                  Updated: {new Date(data.generatedAt).toLocaleTimeString()}
-                </span>
+      {/* Opportunities Table */}
+      <section className="py-8">
+        <div className="container-editorial">
+          <div className="card-elevated">
+            {/* Table Header */}
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+              <div>
+                <h2 className="heading-display text-2xl text-white">Current Opportunities</h2>
+                <p className="text-mono text-xs text-zinc-500 mt-1">
+                  Updated {data ? new Date(data.generatedAt).toLocaleTimeString() : '—'}
+                </p>
+              </div>
+              {data?.plan === 'PRO' ? (
+                <div className="plan-badge-pro">PRO</div>
+              ) : (
+                <div className="plan-badge-free">FREE</div>
               )}
             </div>
+
+            {/* Table */}
             {loading ? (
-              <div className="py-12 text-center text-zinc-500">
-                <div className="inline-block w-8 h-8 border-2 border-zinc-600 border-t-emerald-400 rounded-full animate-spin mb-4"></div>
-                <div>Loading opportunities...</div>
+              <div className="py-20 text-center">
+                <div className="inline-block w-6 h-6 border-2 border-zinc-700 border-t-emerald-400 rounded-full animate-spin" />
+                <p className="text-mono text-xs text-zinc-500 mt-4">Loading opportunities...</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="table-editorial">
                   <thead>
-                    <tr className="border-b border-zinc-800">
-                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Event</th>
-                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Outcome</th>
-                      <th className="text-right py-3 px-4 text-zinc-400 font-medium">Polymarket</th>
-                      <th className="text-right py-3 px-4 text-zinc-400 font-medium">Kalshi</th>
-                      <th className="text-right py-3 px-4 text-zinc-400 font-medium">Edge</th>
+                    <tr>
+                      <th>Event</th>
+                      <th>Outcome</th>
+                      <th className="text-right">Polymarket</th>
+                      <th className="text-right">Kalshi</th>
+                      <th className="text-right">Edge</th>
                     </tr>
                   </thead>
                   <tbody>
                     {!data || data.opportunities.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="py-12 text-center text-zinc-500">
-                          <div className="flex flex-col items-center gap-2">
-                            <svg className="w-12 h-12 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>No opportunities above threshold</span>
+                        <td colSpan={5} className="text-center py-16">
+                          <div className="text-mono text-xs text-zinc-500">
+                            No opportunities in current range
                           </div>
                         </td>
                       </tr>
                     ) : (
                       data.opportunities.map((op, i) => (
-                        <tr key={`${op.eventKey}-${op.outcome}-${i}`} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors">
-                          <td className="py-4 px-4">
-                            <span className="font-medium">{op.eventKey}</span>
+                        <tr key={`${op.eventKey}-${op.outcome}-${i}`}>
+                          <td>
+                            <span className="text-white font-medium">{op.eventKey}</span>
                           </td>
-                          <td className="py-4 px-4 text-zinc-400">{op.outcome}</td>
-                          <td className="py-4 px-4 text-right font-mono">{op.polymarket.price.toFixed(3)}</td>
-                          <td className="py-4 px-4 text-right font-mono">{op.kalshi.price.toFixed(3)}</td>
-                          <td className="py-4 px-4 text-right">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold">
-                              +{op.percentEdge.toFixed(2)}%
-                            </span>
+                          <td>
+                            <span className="text-mono text-xs text-zinc-400">{op.outcome}</span>
+                          </td>
+                          <td className="text-right">
+                            <span className="text-mono text-sm">{op.polymarket.price.toFixed(3)}</span>
+                          </td>
+                          <td className="text-right">
+                            <span className="text-mono text-sm">{op.kalshi.price.toFixed(3)}</span>
+                          </td>
+                          <td className="text-right">
+                            <span className="edge-badge">+{op.percentEdge.toFixed(2)}%</span>
                           </td>
                         </tr>
                       ))
@@ -191,86 +251,111 @@ export default function HomePage() {
               </div>
             )}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Features */}
-        <section className="max-w-7xl mx-auto px-6 py-16">
-          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+      {/* Features Section */}
+      <section className="py-16">
+        <div className="container-editorial">
+          <div className="text-center mb-12">
+            <h2 className="heading-mono text-xs text-zinc-500 mb-4">How It Works</h2>
+            <p className="heading-display text-3xl md:text-4xl text-white">The Signal Pipeline</p>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="card">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            <div className="card-elevated group">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Real-Time Detection</h3>
-              <p className="text-zinc-400">Continuously monitors Polymarket and Kalshi for price discrepancies above your threshold.</p>
+              <h3 className="heading-display text-xl text-white mb-2">Detect</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Continuous price monitoring across prediction markets with sub-second latency.
+              </p>
             </div>
-            <div className="card">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+
+            <div className="card-elevated group">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg className="w-5 h-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Instant Alerts</h3>
-              <p className="text-zinc-400">Get notified instantly via Telegram when profitable opportunities are detected.</p>
+              <h3 className="heading-display text-xl text-white mb-2">Alert</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Instant Telegram notifications when edge thresholds are breached.
+              </p>
             </div>
-            <div className="card">
-              <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+
+            <div className="card-elevated group">
+              <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Analytics Dashboard</h3>
-              <p className="text-zinc-400">Track historical opportunities and analyze market efficiency over time.</p>
+              <h3 className="heading-display text-xl text-white mb-2">Track</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Historical analytics to identify patterns and optimize your strategy.
+              </p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Login / Plan Status */}
-        <section className="max-w-7xl mx-auto px-6 py-8">
-          <div className="max-w-xl mx-auto">
-            <div className="card">
+      {/* Plan Status / Login Section */}
+      <section className="py-8 pb-16">
+        <div className="container-editorial">
+          <div className="max-w-lg mx-auto">
+            <div className="card-glass">
               {data?.plan === 'PRO' ? (
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
                     <div>
-                      <div className="font-semibold text-emerald-400">Pro Plan Active</div>
-                      <div className="text-sm text-zinc-400">Viewing opportunities {edgeWindowLabel(data.edgeWindow)}</div>
+                      <div className="text-mono text-xs font-bold text-emerald-400 uppercase tracking-wider">Pro Active</div>
+                      <div className="text-mono text-[10px] text-zinc-500 mt-0.5">
+                        Range: {edgeWindowLabel(data.edgeWindow)}
+                      </div>
                     </div>
                   </div>
-                  <button onClick={onLogout} className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors">
+                  <button 
+                    onClick={onLogout} 
+                    className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"
+                  >
                     Logout
                   </button>
                 </div>
               ) : (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-zinc-400">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>Free plan: viewing oportunidades até 2%. <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> para ver as melhores acima de 5%.</span>
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <p className="text-mono text-xs text-zinc-400">
+                      Free tier: <span className="text-white">{edgeWindowLabel(data?.edgeWindow)}</span>
+                    </p>
+                    <p className="text-mono text-[10px] text-zinc-500 mt-1">
+                      <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> for {data?.edgeWindow?.maxEdge ? '5%+ edges' : 'premium signals'}
+                    </p>
                   </div>
+                  
                   {data?.fallbackApplied && (
-                    <div className="text-amber-400 text-sm">
-                      Sem oportunidades na faixa até 2% agora — exibindo fallback até 5% para não ficar vazio.
+                    <div className="text-center text-mono text-[10px] text-amber-400">
+                      Showing extended range (no opportunities in primary tier)
                     </div>
                   )}
+
                   <div className="flex gap-2">
                     <input
                       type="email"
-                      className="input flex-1"
-                      placeholder="Enter your email to check Pro status"
+                      className="input-refined flex-1"
+                      placeholder="email@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && onLogin()}
                     />
-                    <button onClick={onLogin} className="btn-secondary whitespace-nowrap">
+                    <button onClick={onLogin} className="btn-secondary py-2 px-4">
                       Check
                     </button>
                   </div>
@@ -278,10 +363,43 @@ export default function HomePage() {
               )}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-      </main>
-      <Footer />
-    </>
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-8">
+        <div className="container-editorial">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 rounded bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+                <span className="text-mono text-[8px] font-bold text-black">AF</span>
+              </div>
+              <span className="heading-display text-sm">ArbiFlow</span>
+            </div>
+            <p className="text-mono text-[10px] text-zinc-600">
+              © 2026 ArbiFlow. Real-time arbitrage signals.
+            </p>
+            <div className="flex items-center gap-6">
+              <a 
+                href="https://t.me/ArbiFlowAnnouncements" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"
+              >
+                Telegram
+              </a>
+              <a 
+                href="https://github.com/clawcoin00/arbiflow" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

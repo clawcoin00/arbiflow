@@ -1,35 +1,34 @@
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
-import Link from 'next/link';
-
 export default function SuccessPage() {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen pt-24 pb-16 flex items-center justify-center">
-        <div className="max-w-md mx-auto px-6 text-center">
-          <div className="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-6">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="container-editorial">
+        <div className="max-w-md mx-auto text-center">
+          {/* Icon */}
+          <div className="w-20 h-20 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-8">
             <svg className="w-10 h-10 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold mb-4">
-            Welcome to <span className="gradient-text">Pro</span>!
+
+          {/* Content */}
+          <h1 className="heading-display text-3xl text-white mb-4">
+            Welcome to <span className="gradient-text">Pro</span>
           </h1>
-          <p className="text-zinc-400 mb-8">
-            Your subscription has been confirmed. You now have access to 500 alerts per day with priority delivery.
+          <p className="text-zinc-400 mb-8 leading-relaxed">
+            Your subscription has been confirmed. You now have access to 500 alerts per day with priority delivery and premium edge signals.
           </p>
+
+          {/* Buttons */}
           <div className="space-y-3">
-            <Link href="/" className="btn-primary block">
+            <a href="/" className="btn-primary block text-center">
               Go to Dashboard
-            </Link>
-            <Link href="/admin" className="btn-secondary block">
+            </a>
+            <a href="/admin" className="btn-secondary block text-center">
               View Account
-            </Link>
+            </a>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </div>
   );
 }

@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
 
 type User = { id: string; email: string; plan: 'FREE' | 'PRO'; createdAt: string };
 
@@ -44,45 +42,63 @@ export default function AdminPage() {
   };
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen pt-24 pb-16">
-        <section className="max-w-6xl mx-auto px-6 py-12">
+    <div className="min-h-screen">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0a0a0b]/90 backdrop-blur-xl">
+        <div className="container-editorial flex items-center justify-between h-16">
+          <a href="/" className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+              <span className="text-mono text-xs font-bold text-black">AF</span>
+            </div>
+            <span className="heading-display text-xl tracking-tight">ArbiFlow</span>
+          </a>
+          
+          <div className="hidden md:flex items-center gap-8">
+            <a href="/" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Dashboard</a>
+            <a href="/pricing" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Pricing</a>
+            <a href="/admin" className="text-mono text-xs text-white">Admin</a>
+          </div>
+        </div>
+      </nav>
+
+      {/* Content */}
+      <section className="pt-32 pb-16">
+        <div className="container-editorial">
           {/* Header */}
           <div className="mb-12">
-            <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-zinc-400">Manage users and subscriptions</p>
+            <h1 className="heading-mono text-xs text-zinc-500 mb-4">Admin</h1>
+            <p className="heading-display text-3xl text-white">User Management</p>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4 mb-12">
-            <div className="card text-center">
-              <div className="text-3xl font-bold text-zinc-100">{stats.total}</div>
-              <div className="text-zinc-400 text-sm mt-1">Total Users</div>
+            <div className="stat-card">
+              <div className="stat-value text-white">{stats.total}</div>
+              <div className="stat-label">Total Users</div>
             </div>
-            <div className="card text-center">
-              <div className="text-3xl font-bold gradient-text">{stats.pro}</div>
-              <div className="text-zinc-400 text-sm mt-1">Pro Users</div>
+            <div className="stat-card">
+              <div className="stat-value gradient-text">{stats.pro}</div>
+              <div className="stat-label">Pro Users</div>
             </div>
-            <div className="card text-center">
-              <div className="text-3xl font-bold text-zinc-100">{stats.free}</div>
-              <div className="text-zinc-400 text-sm mt-1">Free Users</div>
+            <div className="stat-card">
+              <div className="stat-value text-white">{stats.free}</div>
+              <div className="stat-label">Free Users</div>
             </div>
           </div>
 
           {/* Add User */}
-          <div className="card mb-8">
-            <h2 className="text-xl font-semibold mb-4">Add / Update User</h2>
+          <div className="card-elevated mb-8">
+            <h2 className="heading-mono text-xs text-zinc-500 mb-4">Add / Update User</h2>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
-                className="input flex-1"
-                placeholder="user@email.com"
+                className="input-refined flex-1"
+                placeholder="email@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <select
-                className="input sm:w-40"
+                className="input-refined sm:w-40"
                 value={plan}
                 onChange={(e) => setPlan(e.target.value as 'FREE' | 'PRO')}
               >
@@ -94,45 +110,46 @@ export default function AdminPage() {
                 onClick={upsert}
                 disabled={loading || !email}
               >
-                {loading ? 'Saving...' : 'Save User'}
+                {loading ? 'Saving...' : 'Save'}
               </button>
             </div>
           </div>
 
           {/* Users Table */}
-          <div className="card">
-            <h2 className="text-xl font-semibold mb-4">All Users</h2>
+          <div className="card-elevated">
+            <h2 className="heading-mono text-xs text-zinc-500 mb-6">All Users</h2>
+            
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="table-editorial">
                 <thead>
-                  <tr className="border-b border-zinc-800">
-                    <th className="text-left py-3 px-4 text-zinc-400 font-medium">Email</th>
-                    <th className="text-left py-3 px-4 text-zinc-400 font-medium">Plan</th>
-                    <th className="text-left py-3 px-4 text-zinc-400 font-medium">Created</th>
+                  <tr>
+                    <th>Email</th>
+                    <th>Plan</th>
+                    <th>Created</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.length === 0 ? (
                     <tr>
-                      <td colSpan={3} className="py-8 text-center text-zinc-500">
-                        No users yet
+                      <td colSpan={3} className="text-center py-12">
+                        <span className="text-mono text-xs text-zinc-500">No users yet</span>
                       </td>
                     </tr>
                   ) : (
                     users.map((user) => (
-                      <tr key={user.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors">
-                        <td className="py-4 px-4 font-medium">{user.email}</td>
-                        <td className="py-4 px-4">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                            user.plan === 'PRO'
-                              ? 'bg-emerald-500/10 text-emerald-400'
-                              : 'bg-zinc-700 text-zinc-300'
-                          }`}>
+                      <tr key={user.id}>
+                        <td>
+                          <span className="text-white">{user.email}</span>
+                        </td>
+                        <td>
+                          <span className={user.plan === 'PRO' ? 'plan-badge-pro' : 'plan-badge-free'}>
                             {user.plan}
                           </span>
                         </td>
-                        <td className="py-4 px-4 text-zinc-400">
-                          {new Date(user.createdAt).toLocaleDateString()}
+                        <td>
+                          <span className="text-mono text-xs text-zinc-500">
+                            {new Date(user.createdAt).toLocaleDateString()}
+                          </span>
                         </td>
                       </tr>
                     ))
@@ -142,31 +159,38 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* API Info */}
-          <div className="card mt-8">
-            <h2 className="text-xl font-semibold mb-4">API Endpoints</h2>
-            <div className="grid sm:grid-cols-2 gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-xs">GET</span>
-                <code className="text-zinc-300">/api/opportunities</code>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-1 rounded bg-cyan-500/10 text-cyan-400 font-mono text-xs">POST</span>
-                <code className="text-zinc-300">/api/scan</code>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-1 rounded bg-cyan-500/10 text-cyan-400 font-mono text-xs">POST</span>
-                <code className="text-zinc-300">/api/test-telegram</code>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-1 rounded bg-cyan-500/10 text-cyan-400 font-mono text-xs">POST</span>
-                <code className="text-zinc-300">/api/billing/checkout</code>
-              </div>
+          {/* API Endpoints */}
+          <div className="card-elevated mt-8">
+            <h2 className="heading-mono text-xs text-zinc-500 mb-4">API Endpoints</h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { method: 'GET', path: '/api/opportunities' },
+                { method: 'POST', path: '/api/scan' },
+                { method: 'POST', path: '/api/test-telegram' },
+                { method: 'POST', path: '/api/billing/checkout' },
+              ].map((ep, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <span className={`text-mono text-[10px] font-bold uppercase ${
+                    ep.method === 'GET' ? 'text-emerald-400' : 'text-cyan-400'
+                  }`}>
+                    {ep.method}
+                  </span>
+                  <code className="text-mono text-xs text-zinc-300">{ep.path}</code>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-8 mt-auto">
+        <div className="container-editorial">
+          <div className="flex items-center justify-center">
+            <span className="text-mono text-[10px] text-zinc-600">Admin Dashboard — ArbiFlow 2026</span>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
