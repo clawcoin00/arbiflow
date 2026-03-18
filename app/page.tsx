@@ -104,57 +104,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Login / Plan Status */}
-          <div className="max-w-xl mx-auto mb-8">
-            <div className="card">
-              {data?.plan === 'PRO' ? (
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-emerald-400">Pro Plan Active</div>
-                      <div className="text-sm text-zinc-400">Viewing opportunities {edgeWindowLabel(data.edgeWindow)}</div>
-                    </div>
-                  </div>
-                  <button onClick={onLogout} className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors">
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-zinc-400">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>Free plan: viewing oportunidades até 2%. <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> para ver as melhores acima de 5%.</span>
-                  </div>
-                  {data?.fallbackApplied && (
-                    <div className="text-amber-400 text-sm">
-                      Sem oportunidades na faixa até 2% agora — exibindo fallback até 5% para não ficar vazio.
-                    </div>
-                  )}
-                  <div className="flex gap-2">
-                    <input
-                      type="email"
-                      className="input flex-1"
-                      placeholder="Enter your email to check Pro status"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && onLogin()}
-                    />
-                    <button onClick={onLogin} className="btn-secondary whitespace-nowrap">
-                      Check
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
           {/* Stats */}
           {data && (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
@@ -241,6 +190,59 @@ export default function HomePage() {
                 </table>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Login / Plan Status */}
+        <section className="max-w-7xl mx-auto px-6 py-8">
+          <div className="max-w-xl mx-auto">
+            <div className="card">
+              {data?.plan === 'PRO' ? (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-emerald-400">Pro Plan Active</div>
+                      <div className="text-sm text-zinc-400">Viewing opportunities {edgeWindowLabel(data.edgeWindow)}</div>
+                    </div>
+                  </div>
+                  <button onClick={onLogout} className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors">
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-zinc-400">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Free plan: viewing oportunidades até 2%. <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> para ver as melhores acima de 5%.</span>
+                  </div>
+                  {data?.fallbackApplied && (
+                    <div className="text-amber-400 text-sm">
+                      Sem oportunidades na faixa até 2% agora — exibindo fallback até 5% para não ficar vazio.
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <input
+                      type="email"
+                      className="input flex-1"
+                      placeholder="Enter your email to check Pro status"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && onLogin()}
+                    />
+                    <button onClick={onLogin} className="btn-secondary whitespace-nowrap">
+                      Check
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
