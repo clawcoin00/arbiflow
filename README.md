@@ -28,6 +28,10 @@ ALERT_COOLDOWN_MS=1800000
 # Optional (if omitted, app falls back to mock data)
 POLYMARKET_API_BASE=
 KALSHI_API_BASE=
+
+STRIPE_SECRET_KEY=
+STRIPE_PRICE_PRO_MONTHLY=
+STRIPE_WEBHOOK_SECRET=
 ```
 
 ## API Routes
@@ -42,6 +46,9 @@ KALSHI_API_BASE=
 
 - `POST /api/test-telegram`
   - Sends a simple test message to Telegram
+
+- `POST /api/billing/webhook`
+  - Stripe webhook endpoint (activates PRO on checkout.session.completed)
 
 - `POST /api/auth/upsert-user`
   - Body: `{ "email": "user@example.com", "plan": "FREE|PRO" }`
