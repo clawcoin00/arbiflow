@@ -1,26 +1,20 @@
-import type { Opportunity } from '@/src/lib/types';
+import { detectOpportunities } from '@/src/lib/arbitrage';
+import { config } from '@/src/lib/config';
+import { fetchAllQuotes } from '@/src/lib/sources';
 
-async function loadData(): Promise<{
-  threshold: number;
-  opportunities: Opportunity[];
-  generatedAt: string;
-  usingMock: boolean;
-}> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-
+async function loadData() {
   try {
-    const res = await fetch(`${base}/api/opportunities`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('failed');
-    const data = await res.json();
+    const { polymarket, kalshi } = await fetchAllQuotes();
+    const opportunities = detectOpportunities(polymarket, kalshi, config.alertEdgeMin);
     return {
-      threshold: data.threshold,
-      opportunities: data.opportunities ?? [],
-      generatedAt: data.generatedAt,
-      usingMock: Boolean(data.sources?.usingMock),
+      threshold: config.alertEdgeMin,
+      opportunities,
+      generatedAt: new Date().toISOString(),
+      usingMock: !config.sources.polymarketApiBase || !config.sources.kalshiApiBase,
     };
   } catch {
     return {
-      threshold: 0.05,
+      threshold: config.alertEdgeMin,
       opportunities: [],
       generatedAt: new Date().toISOString(),
       usingMock: true,
