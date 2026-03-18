@@ -83,6 +83,11 @@ export function getUserByEmail(email: string) {
   return db.users.find((u) => u.email.toLowerCase() === email.toLowerCase()) ?? null;
 }
 
+export function listUsers() {
+  const db = readDb();
+  return [...db.users].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+}
+
 export function saveOpportunities(items: Omit<DbOpportunity, 'id' | 'createdAt'>[]) {
   const db = readDb();
   const now = new Date().toISOString();

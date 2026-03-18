@@ -79,6 +79,11 @@ export default async function Home() {
           <div>• GET /api/opportunities</div>
           <div>• POST /api/scan (detecta e envia alertas Telegram)</div>
           <div>• POST /api/test-telegram</div>
+          <div>• POST /api/auth/upsert-user • GET /api/auth/me</div>
+          <div>• POST /api/billing/checkout</div>
+          <div className="pt-2">
+            Pages: <a className="underline" href="/pricing">/pricing</a> • <a className="underline" href="/admin">/admin</a>
+          </div>
         </section>
       </div>
     </main>
