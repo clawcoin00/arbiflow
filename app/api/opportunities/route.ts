@@ -1,11 +1,27 @@
 import { detectOpportunities } from '@/src/lib/arbitrage';
 import { config } from '@/src/lib/config';
 import { fetchAllQuotes } from '@/src/lib/sources';
-import { getRecentOpportunities, saveOpportunities } from '@/src/lib/db';
+import { getRecentOpportunities, getUserByEmail, saveOpportunities } from '@/src/lib/db';
+import { getMinEdgeForPlan } from '@/src/lib/plans';
 
-export async function GET() {
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const email = url.searchParams.get('email');
+  const planParam = url.searchParams.get('plan') as 'FREE' | 'PRO' | null;
+
+  // Determine plan: from email lookup, or param, or default FREE
+  let plan: 'FREE' | 'PRO' = 'FREE';
+  if (email) {
+    const user = getUserByEmail(email);
+    if (user) plan = user.plan;
+  } else if (planParam && (planParam === 'FREE' || planParam === 'PRO')) {
+    plan = planParam;
+  }
+
+  const minEdge = getMinEdgeForPlan(plan);
+
   const { polymarket, kalshi } = await fetchAllQuotes();
-  const opportunities = detectOpportunities(polymarket, kalshi, config.alertEdgeMin);
+  const opportunities = detectOpportunities(polymarket, kalshi, minEdge);
 
   // Store latest detection snapshots (MVP persistence).
   saveOpportunities(
@@ -24,7 +40,8 @@ export async function GET() {
 
   return Response.json({
     ok: true,
-    threshold: config.alertEdgeMin,
+    plan,
+    threshold: minEdge,
     sources: {
       polymarketCount: polymarket.length,
       kalshiCount: kalshi.length,
