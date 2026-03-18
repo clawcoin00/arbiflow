@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  plan      Plan     @default(FREE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  alerts    AlertEvent[]
+}
+
+model OpportunitySnapshot {
+  id          String   @id @default(cuid())
+  eventKey    String
+  outcome     String
+  edge        Float
+  percentEdge Float
+  sourceA     String
+  sourceB     String
+  payload     String
+  createdAt   DateTime @default(now())
+
+  @@index([eventKey, outcome, createdAt])
+}
+
+model AlertEvent {
+  id         String   @id @default(cuid())
+  userId     String
+  eventKey   String
+  outcome    String
+  edge       Float
+  message    String
+  delivered  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}

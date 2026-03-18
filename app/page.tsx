@@ -11,6 +11,7 @@ async function loadData() {
       opportunities,
       generatedAt: new Date().toISOString(),
       usingMock: !config.sources.polymarketApiBase || !config.sources.kalshiApiBase,
+      recentCount: opportunities.length,
     };
   } catch {
     return {
@@ -18,6 +19,7 @@ async function loadData() {
       opportunities: [],
       generatedAt: new Date().toISOString(),
       usingMock: true,
+      recentCount: 0,
     };
   }
 }
@@ -34,7 +36,7 @@ export default async function Home() {
             MVP informativo: detecta oportunidades e envia alertas no Telegram (sem execução de trade).
           </p>
           <div className="text-sm text-zinc-400">
-            Threshold: {(data.threshold * 100).toFixed(2)}% • Source: {data.usingMock ? 'Mock fallback' : 'Live API'} • Updated:{' '}
+            Threshold: {(data.threshold * 100).toFixed(2)}% • Source: {data.usingMock ? 'Mock fallback' : 'Live API'} • Opportunities: {data.recentCount} • Updated:{' '}
             {new Date(data.generatedAt).toLocaleString()}
           </div>
         </header>

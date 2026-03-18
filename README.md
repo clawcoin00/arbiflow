@@ -43,6 +43,13 @@ KALSHI_API_BASE=
 - `POST /api/test-telegram`
   - Sends a simple test message to Telegram
 
+- `POST /api/auth/upsert-user`
+  - Body: `{ "email": "user@example.com", "plan": "FREE|PRO" }`
+  - Creates/updates a user plan for SaaS limits
+
+- `GET /api/auth/me?email=user@example.com`
+  - Fetches user profile/plan
+
 ## Notes / limitations
 
 - Matching is heuristic (`eventKey + outcome`) in this MVP.
