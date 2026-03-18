@@ -32,20 +32,24 @@ export async function GET(req: Request) {
     fallbackApplied = true;
   }
 
-  // Store latest detection snapshots (MVP persistence).
-  saveOpportunities(
-    opportunities.slice(0, 50).map((op) => ({
-      eventKey: op.eventKey,
-      outcome: op.outcome,
-      edge: op.edge,
-      percentEdge: op.percentEdge,
-      sourceA: 'polymarket',
-      sourceB: 'kalshi',
-      payload: JSON.stringify(op),
-    })),
-  );
-
-  const recent = getRecentOpportunities(100);
+  // Store latest detection snapshots (best-effort on serverless envs).
+  let recent: ReturnType<typeof getRecentOpportunities> = [];
+  try {
+    saveOpportunities(
+      opportunities.slice(0, 50).map((op) => ({
+        eventKey: op.eventKey,
+        outcome: op.outcome,
+        edge: op.edge,
+        percentEdge: op.percentEdge,
+        sourceA: 'polymarket',
+        sourceB: 'kalshi',
+        payload: JSON.stringify(op),
+      })),
+    );
+    recent = getRecentOpportunities(100);
+  } catch {
+    recent = [];
+  }
 
   return Response.json({
     ok: true,
