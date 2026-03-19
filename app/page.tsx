@@ -107,15 +107,17 @@ export default function HomePage() {
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
+              <span style={{
+                fontWeight: 700,
+                fontSize: '10px',
+                color: '#000'
+              }}>AF</span>
             </div>
             <span style={{
               fontWeight: 800,
               fontSize: '16px',
               letterSpacing: '-0.02em'
-            }}>ARBS</span>
+            }}>ArbiFlow</span>
           </a>
           
           {/* Get Access Button */}
