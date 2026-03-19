@@ -1,6 +1,8 @@
 "use client";
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { MarketReplay } from './components/MarketReplay';
 
 type Opportunity = {
   eventKey: string;
@@ -26,7 +28,6 @@ type DataResponse = {
 
 export default function HomePage() {
   const [data, setData] = useState<DataResponse | null>(null);
-  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
 
   const edgeWindowLabel = (window?: { minEdge: number; maxEdge?: number }) => {
@@ -61,12 +62,6 @@ export default function HomePage() {
     loadData();
   }, []);
 
-  const onLogin = () => {
-    if (email.trim()) {
-      loadData(email.trim());
-    }
-  };
-
   return (
     <div style={{ minHeight: '100vh' }}>
       {/* Navigation - Style like arbs.xyz */}
@@ -91,7 +86,7 @@ export default function HomePage() {
           padding: '0 16px'
         }}>
           {/* Logo */}
-          <a href="/" style={{
+          <Link href="/" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
@@ -118,10 +113,10 @@ export default function HomePage() {
               fontSize: '16px',
               letterSpacing: '-0.02em'
             }}>ArbiFlow</span>
-          </a>
+          </Link>
           
           {/* Get Started Button */}
-          <a 
+          <Link 
             href="/pricing"
             style={{
               background: '#22c55e',
@@ -137,7 +132,7 @@ export default function HomePage() {
             }}
           >
             Get Started
-          </a>
+          </Link>
         </div>
       </nav>
 
@@ -165,12 +160,12 @@ export default function HomePage() {
 
           {/* Actions */}
           <div className="hero-actions animate-fade-in animate-delay-3">
-            <a href="/pricing" className="btn-primary">
+            <Link href="/pricing" className="btn-primary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
               Get Started Free
-            </a>
+            </Link>
             <a 
               href="https://t.me/+zWZEAjCoUjM0YTk5" 
               target="_blank" 
@@ -185,6 +180,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <MarketReplay />
 
       {/* Stats Section */}
       {data && (
@@ -416,9 +413,9 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <a href="/pricing" className="btn-secondary" style={{ width: '100%', display: 'flex' }}>
+                <Link href="/pricing" className="btn-secondary" style={{ width: '100%', display: 'flex' }}>
                   Get Started Free
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -457,9 +454,9 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <a href="/pricing" className="btn-primary" style={{ width: '100%', display: 'flex' }}>
+                <Link href="/pricing" className="btn-primary" style={{ width: '100%', display: 'flex' }}>
                   Upgrade to Pro
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -489,7 +486,7 @@ export default function HomePage() {
             </div>
             
             <div className="footer-links">
-              <a href="/" className="footer-link">Dashboard</a>
+              <Link href="/" className="footer-link">Dashboard</Link>
               <a 
                 href="https://t.me/+zWZEAjCoUjM0YTk5" 
                 target="_blank" 
