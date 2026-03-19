@@ -183,7 +183,7 @@ export default function PricingPage() {
               Dashboard
             </a>
             <a 
-              href="https://t.me/ArbiFlowAnnouncements" 
+              href="https://t.me/+zWZEAjCoUjM0YTk5" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"

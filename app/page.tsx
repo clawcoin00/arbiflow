@@ -172,7 +172,7 @@ export default function HomePage() {
               Get Started Free
             </a>
             <a 
-              href="https://t.me/ArbiFlowAnnouncements" 
+              href="https://t.me/+zWZEAjCoUjM0YTk5" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="btn-secondary"
@@ -491,7 +491,7 @@ export default function HomePage() {
             <div className="footer-links">
               <a href="/" className="footer-link">Dashboard</a>
               <a 
-                href="https://t.me/ArbiFlowAnnouncements" 
+                href="https://t.me/+zWZEAjCoUjM0YTk5" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="footer-link"

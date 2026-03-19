@@ -28,7 +28,7 @@ export function Navbar() {
             Admin
           </Link>
           <a
-            href="https://t.me/ArbiFlowAnnouncements"
+            href="https://t.me/+zWZEAjCoUjM0YTk5"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-sm px-4 py-2"
@@ -81,7 +81,7 @@ export function Navbar() {
               Admin
             </Link>
             <a
-              href="https://t.me/ArbiFlowAnnouncements"
+              href="https://t.me/+zWZEAjCoUjM0YTk5"
               target="_blank"
               rel="noopener noreferrer"
               className="block btn-primary text-center text-sm px-4 py-2"

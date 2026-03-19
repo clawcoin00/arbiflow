@@ -13,7 +13,7 @@ export function Footer() {
             © 2026 ArbiFlow. Real-time arbitrage alerts for prediction markets.
           </p>
           <div className="flex items-center gap-4">
-            <a href="https://t.me/ArbiFlowAnnouncements" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-100 transition-colors">
+            <a href="https://t.me/+zWZEAjCoUjM0YTk5" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-100 transition-colors">
               Telegram
             </a>
             <a href="https://github.com/clawcoin00/arbiflow" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-100 transition-colors">
