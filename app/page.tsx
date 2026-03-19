@@ -30,7 +30,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   const edgeWindowLabel = (window?: { minEdge: number; maxEdge?: number }) => {
-    if (!window) return '-';
+    if (!window) return '—';
     const min = (window.minEdge * 100).toFixed(0);
     if (typeof window.maxEdge === 'number') {
       const max = (window.maxEdge * 100).toFixed(0);
@@ -67,336 +67,383 @@ export default function HomePage() {
     }
   };
 
-  const onLogout = () => {
-    setEmail('');
-    loadData();
-  };
-
   return (
-    <div className="min-h-screen">
+    <div style={{ minHeight: '100vh' }}>
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0a0a0b]/90 backdrop-blur-xl">
-        <div className="container-editorial flex items-center justify-between h-16">
-          <a href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
-              <span className="text-mono text-xs font-bold text-black">AF</span>
-            </div>
-            <span className="heading-display text-xl tracking-tight">ArbiFlow</span>
+      <nav className="nav-container">
+        <div className="nav-inner">
+          <a href="/" className="nav-logo">
+            <div className="nav-logo-icon">AF</div>
+            <span className="nav-logo-text">ArbiFlow</span>
           </a>
           
-          <div className="hidden md:flex items-center gap-8">
-            <a href="/" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Dashboard</a>
-            <a href="/pricing" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Pricing</a>
-            <a href="/admin" className="text-mono text-xs text-zinc-400 hover:text-white transition-colors">Admin</a>
-            <a 
-              href="https://t.me/ArbiFlowAnnouncements" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="btn-secondary text-xs py-2 px-4"
-            >
-              Telegram
-            </a>
+          <div className="nav-links">
+            <a href="/" className="nav-link">Dashboard</a>
+            <a href="/pricing" className="nav-link">Pricing</a>
+            <a href="/admin" className="nav-link">Admin</a>
           </div>
-
-          {/* Mobile menu button */}
-          <button className="md:hidden p-2 text-zinc-400 hover:text-white">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+          
+          <a 
+            href="https://t.me/ArbiFlowAnnouncements" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="nav-cta"
+          >
+            Join Telegram
+          </a>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16">
-        <div className="container-editorial">
-          <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in-up">
-            {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-mono text-[10px] font-bold tracking-widest text-emerald-400 uppercase">Live Monitoring</span>
-            </div>
+      <section className="hero-section">
+        <div className="container-main">
+          {/* Live Badge */}
+          <div className="hero-badge animate-fade-in">
+            <span className="badge badge-live">LIVE MONITORING ACTIVE</span>
+          </div>
 
-            {/* Main Heading */}
-            <h1 className="heading-display text-5xl md:text-7xl lg:text-8xl leading-[0.9]">
-              <span className="text-white">Arbitrage</span>
-              <br />
-              <span className="gradient-text">Intelligence</span>
-            </h1>
+          {/* Title */}
+          <h1 className="hero-title animate-fade-in animate-delay-1">
+            Stop Guessing.
+            <br />
+            <span className="text-gradient">Start Arbitraging.</span>
+          </h1>
 
-            {/* Subtitle */}
-            <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
-              Real-time opportunity detection across{' '}
-              <span className="text-white font-medium">Polymarket</span> and{' '}
-              <span className="text-white font-medium">Kalshi</span>. 
-              <br className="hidden md:block" />
-              Zero execution. Pure signals.
-            </p>
+          {/* Subtitle */}
+          <p className="hero-subtitle animate-fade-in animate-delay-2">
+            Real-time arbitrage detection across <strong>Polymarket</strong> and <strong>Kalshi</strong>.
+            <br />
+            Zero execution. Pure signals. Profit regardless of the outcome.
+          </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <a href="/pricing" className="btn-primary">
-                Get Started
-              </a>
-              <a 
-                href="https://t.me/ArbiFlowAnnouncements" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="btn-secondary"
-              >
-                Join Telegram
-              </a>
-            </div>
+          {/* Actions */}
+          <div className="hero-actions animate-fade-in animate-delay-3">
+            <a href="/pricing" className="btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg>
+              Get Started Free
+            </a>
+            <a 
+              href="https://t.me/ArbiFlowAnnouncements" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-secondary"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+              Join Telegram
+            </a>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
       {data && (
-        <section className="py-8">
-          <div className="container-editorial">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="stat-card animate-fade-in-up stagger-1">
-                <div className="stat-value gradient-text">{data.opportunities.length}</div>
-                <div className="stat-label">Opportunities</div>
+        <section style={{ padding: '20px 0' }}>
+          <div className="container-main">
+            <div className="stats-grid">
+              <div className="stat-card animate-fade-in animate-delay-1">
+                <div className="stat-value text-gradient">{data.opportunities.length}</div>
+                <div className="stat-label">Active Opportunities</div>
               </div>
-              <div className="stat-card animate-fade-in-up stagger-2">
-                <div className="stat-value text-white">{edgeWindowLabel(data.edgeWindow)}</div>
+              <div className="stat-card animate-fade-in animate-delay-2">
+                <div className="stat-value">{edgeWindowLabel(data.edgeWindow)}</div>
                 <div className="stat-label">Edge Range</div>
               </div>
-              <div className="stat-card animate-fade-in-up stagger-3">
-                <div className="stat-value text-white">2</div>
-                <div className="stat-label">Markets</div>
+              <div className="stat-card animate-fade-in animate-delay-3">
+                <div className="stat-value">2</div>
+                <div className="stat-label">Markets Monitored</div>
               </div>
-              <div className="stat-card animate-fade-in-up stagger-4">
-                <div className={`stat-value ${data.sources.usingMock ? 'text-amber-400' : 'text-emerald-400'}`}>
+              <div className="stat-card animate-fade-in animate-delay-4">
+                <div className="stat-value" style={{ color: data.sources.usingMock ? '#f97316' : '#22c55e' }}>
                   {data.sources.usingMock ? 'Demo' : 'Live'}
                 </div>
-                <div className="stat-label">Status</div>
+                <div className="stat-label">Data Status</div>
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* Opportunities Table */}
-      <section className="py-8">
-        <div className="container-editorial">
-          <div className="card-elevated">
-            {/* Table Header */}
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+      {/* Opportunities Section */}
+      <section style={{ padding: '40px 0' }}>
+        <div className="container-main">
+          <div className="card card-glow">
+            {/* Card Header */}
+            <div className="card-header">
               <div>
-                <h2 className="heading-display text-2xl text-white">Current Opportunities</h2>
-                <p className="text-mono text-xs text-zinc-500 mt-1">
-                  Updated {data ? new Date(data.generatedAt).toLocaleTimeString() : '—'}
+                <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '4px' }}>
+                  Current Opportunities
+                </h2>
+                <p style={{ fontSize: '13px', color: '#71717a' }}>
+                  Last updated: {data ? new Date(data.generatedAt).toLocaleTimeString() : '—'}
                 </p>
               </div>
-              {data?.plan === 'PRO' ? (
-                <div className="plan-badge-pro">PRO</div>
-              ) : (
-                <div className="plan-badge-free">FREE</div>
+              {data && (
+                <div className={`badge ${data.plan === 'PRO' ? 'badge-pro' : 'badge-free'}`}>
+                  {data.plan}
+                </div>
               )}
             </div>
 
             {/* Table */}
-            {loading ? (
-              <div className="py-20 text-center">
-                <div className="inline-block w-6 h-6 border-2 border-zinc-700 border-t-emerald-400 rounded-full animate-spin" />
-                <p className="text-mono text-xs text-zinc-500 mt-4">Loading opportunities...</p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="table-editorial">
+            <div className="table-container">
+              {loading ? (
+                <div style={{ padding: '60px 20px', textAlign: 'center' }}>
+                  <div style={{ 
+                    width: '32px', 
+                    height: '32px', 
+                    border: '3px solid #27272a', 
+                    borderTopColor: '#22c55e',
+                    borderRadius: '50%',
+                    animation: 'pulse 1s linear infinite',
+                    margin: '0 auto 16px'
+                  }} />
+                  <p style={{ color: '#71717a', fontSize: '14px' }}>Loading opportunities...</p>
+                </div>
+              ) : (
+                <table className="table-main">
                   <thead>
                     <tr>
                       <th>Event</th>
                       <th>Outcome</th>
-                      <th className="text-right">Polymarket</th>
-                      <th className="text-right">Kalshi</th>
-                      <th className="text-right">Edge</th>
+                      <th style={{ textAlign: 'right' }}>Polymarket</th>
+                      <th style={{ textAlign: 'right' }}>Kalshi</th>
+                      <th style={{ textAlign: 'right' }}>Edge</th>
                     </tr>
                   </thead>
                   <tbody>
                     {!data || data.opportunities.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="text-center py-16">
-                          <div className="text-mono text-xs text-zinc-500">
+                        <td colSpan={5} style={{ textAlign: 'center', padding: '60px 20px' }}>
+                          <p style={{ color: '#71717a', fontSize: '14px', margin: 0 }}>
                             No opportunities in current range
-                          </div>
+                          </p>
                         </td>
                       </tr>
                     ) : (
                       data.opportunities.map((op, i) => (
                         <tr key={`${op.eventKey}-${op.outcome}-${i}`}>
                           <td>
-                            <span className="text-white font-medium">{op.eventKey}</span>
+                            <span style={{ fontWeight: 500 }}>{op.eventKey}</span>
                           </td>
                           <td>
-                            <span className="text-mono text-xs text-zinc-400">{op.outcome}</span>
+                            <span style={{ 
+                              color: '#a1a1aa', 
+                              fontSize: '13px',
+                              fontFamily: "'JetBrains Mono', monospace"
+                            }}>
+                              {op.outcome}
+                            </span>
                           </td>
-                          <td className="text-right">
-                            <span className="text-mono text-sm">{op.polymarket.price.toFixed(3)}</span>
+                          <td style={{ textAlign: 'right' }}>
+                            <span className="font-mono" style={{ fontSize: '14px' }}>
+                              {op.polymarket.price.toFixed(3)}
+                            </span>
                           </td>
-                          <td className="text-right">
-                            <span className="text-mono text-sm">{op.kalshi.price.toFixed(3)}</span>
+                          <td style={{ textAlign: 'right' }}>
+                            <span className="font-mono" style={{ fontSize: '14px' }}>
+                              {op.kalshi.price.toFixed(3)}
+                            </span>
                           </td>
-                          <td className="text-right">
-                            <span className="edge-badge">+{op.percentEdge.toFixed(2)}%</span>
+                          <td style={{ textAlign: 'right' }}>
+                            <span className="badge-edge">
+                              +{op.percentEdge.toFixed(2)}%
+                            </span>
                           </td>
                         </tr>
                       ))
                     )}
                   </tbody>
                 </table>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16">
-        <div className="container-editorial">
-          <div className="text-center mb-12">
-            <h2 className="heading-mono text-xs text-zinc-500 mb-4">How It Works</h2>
-            <p className="heading-display text-3xl md:text-4xl text-white">The Signal Pipeline</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="card-elevated group">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="heading-display text-xl text-white mb-2">Detect</h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                Continuous price monitoring across prediction markets with sub-second latency.
-              </p>
-            </div>
-
-            <div className="card-elevated group">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <svg className="w-5 h-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-              </div>
-              <h3 className="heading-display text-xl text-white mb-2">Alert</h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                Instant Telegram notifications when edge thresholds are breached.
-              </p>
-            </div>
-
-            <div className="card-elevated group">
-              <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <h3 className="heading-display text-xl text-white mb-2">Track</h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                Historical analytics to identify patterns and optimize your strategy.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Plan Status / Login Section */}
-      <section className="py-8 pb-16">
-        <div className="container-editorial">
-          <div className="max-w-lg mx-auto">
-            <div className="card-glass">
-              {data?.plan === 'PRO' ? (
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                      <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="text-mono text-xs font-bold text-emerald-400 uppercase tracking-wider">Pro Active</div>
-                      <div className="text-mono text-[10px] text-zinc-500 mt-0.5">
-                        Range: {edgeWindowLabel(data.edgeWindow)}
-                      </div>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={onLogout} 
-                    className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <p className="text-mono text-xs text-zinc-400">
-                      Free tier: <span className="text-white">{edgeWindowLabel(data?.edgeWindow)}</span>
-                    </p>
-                    <p className="text-mono text-[10px] text-zinc-500 mt-1">
-                      <a href="/pricing" className="text-emerald-400 hover:underline">Upgrade to Pro</a> for {data?.edgeWindow?.maxEdge ? '5%+ edges' : 'premium signals'}
-                    </p>
-                  </div>
-                  
-                  {data?.fallbackApplied && (
-                    <div className="text-center text-mono text-[10px] text-amber-400">
-                      Showing extended range (no opportunities in primary tier)
-                    </div>
-                  )}
-
-                  <div className="flex gap-2">
-                    <input
-                      type="email"
-                      className="input-refined flex-1"
-                      placeholder="email@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && onLogin()}
-                    />
-                    <button onClick={onLogin} className="btn-secondary py-2 px-4">
-                      Check
-                    </button>
-                  </div>
-                </div>
               )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-8">
-        <div className="container-editorial">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
-                <span className="text-mono text-[8px] font-bold text-black">AF</span>
-              </div>
-              <span className="heading-display text-sm">ArbiFlow</span>
-            </div>
-            <p className="text-mono text-[10px] text-zinc-600">
-              © 2026 ArbiFlow. Real-time arbitrage signals.
+      {/* How It Works */}
+      <section style={{ padding: '60px 0' }}>
+        <div className="container-main">
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span className="section-label">THE PROTOCOL</span>
+            <h2 className="section-title">How It Works</h2>
+            <p style={{ color: '#a1a1aa', maxWidth: '500px', margin: '0 auto' }}>
+              Our system monitors prediction markets 24/7 to find profitable arbitrage opportunities.
             </p>
-            <div className="flex items-center gap-6">
+          </div>
+
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon feature-icon-green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12,6 12,12 16,14" />
+                </svg>
+              </div>
+              <h3 className="feature-title">Detect</h3>
+              <p className="feature-desc">
+                Real-time price monitoring across Polymarket, Kalshi, and more prediction markets.
+              </p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon feature-icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+              </div>
+              <h3 className="feature-title">Analyze</h3>
+              <p className="feature-desc">
+                Calculate exact edge percentages and potential profit for every opportunity.
+              </p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon feature-icon-purple">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+              </div>
+              <h3 className="feature-title">Alert</h3>
+              <p className="feature-desc">
+                Instant Telegram notifications when high-edge opportunities are detected.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Plan Status */}
+      <section style={{ padding: '40px 0' }}>
+        <div className="container-main">
+          <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <div className="card">
+              <div className="card-body">
+                {data?.plan === 'PRO' ? (
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ 
+                      width: '48px', 
+                      height: '48px', 
+                      borderRadius: '50%',
+                      background: 'rgba(34, 197, 94, 0.1)',
+                      border: '2px solid rgba(34, 197, 94, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: '0 auto 16px'
+                    }}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <polyline points="20,6 9,17 4,12" />
+                      </svg>
+                    </div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>Pro Plan Active</h3>
+                    <p style={{ color: '#a1a1aa', fontSize: '14px', marginBottom: '16px' }}>
+                      Viewing opportunities {edgeWindowLabel(data.edgeWindow)}
+                    </p>
+                    <button 
+                      onClick={() => { setEmail(''); loadData(); }}
+                      style={{ 
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#71717a',
+                        fontSize: '13px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                      <p style={{ color: '#a1a1aa', fontSize: '14px', margin: '0 0 8px' }}>
+                        Free plan: <span style={{ color: '#fafafa' }}>{edgeWindowLabel(data?.edgeWindow)}</span>
+                      </p>
+                      <p style={{ color: '#71717a', fontSize: '13px', margin: 0 }}>
+                        <a href="/pricing" style={{ color: '#22c55e' }}>Upgrade to Pro</a> for premium edge signals
+                      </p>
+                    </div>
+                    
+                    {data?.fallbackApplied && (
+                      <p style={{ 
+                        textAlign: 'center', 
+                        color: '#f97316', 
+                        fontSize: '12px',
+                        marginBottom: '16px'
+                      }}>
+                        Showing extended range (no opportunities in primary tier)
+                      </p>
+                    )}
+
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <input
+                        type="email"
+                        className="input-main"
+                        placeholder="email@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && onLogin()}
+                        style={{ flex: 1 }}
+                      />
+                      <button className="btn-secondary" onClick={onLogin}>
+                        Check
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container-main">
+          <div className="footer-inner">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ 
+                width: '24px', 
+                height: '24px', 
+                background: 'var(--gradient-green)',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '10px',
+                fontWeight: 700,
+                color: '#000'
+              }}>
+                AF
+              </div>
+              <span style={{ fontWeight: 600, fontSize: '14px' }}>ArbiFlow</span>
+            </div>
+            
+            <div className="footer-links">
+              <a href="/" className="footer-link">Dashboard</a>
               <a 
                 href="https://t.me/ArbiFlowAnnouncements" 
                 target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"
+                rel="noopener noreferrer"
+                className="footer-link"
               >
                 Telegram
               </a>
               <a 
                 href="https://github.com/clawcoin00/arbiflow" 
                 target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-mono text-[10px] text-zinc-500 hover:text-white transition-colors uppercase tracking-wider"
+                rel="noopener noreferrer"
+                className="footer-link"
               >
                 GitHub
               </a>
             </div>
+            
+            <p className="footer-copy">© 2026 ArbiFlow</p>
           </div>
         </div>
       </footer>
