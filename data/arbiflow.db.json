@@ -132,6 +132,160 @@
       "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T04:58:34.864Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T04:58:34.864Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T04:58:37.667Z\"}",
       "id": "ogdv3xdto3mmx02ep0",
       "createdAt": "2026-03-19T04:58:37.668Z"
+    },
+    {
+      "eventKey": "fed-rate-cut-june",
+      "outcome": "YES",
+      "edge": 0.015000000000000013,
+      "percentEdge": 1.5,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"fed-rate-cut-june\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"pm_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.37,\"volume24h\":98000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"ka_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.385,\"volume24h\":75000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.015000000000000013,\"percentEdge\":1.5,\"detectedAt\":\"2026-03-19T05:46:46.081Z\"}",
+      "id": "34j5db9xaelmmx1sbeq",
+      "createdAt": "2026-03-19T05:46:46.082Z"
+    },
+    {
+      "eventKey": "us-election-2028-winner",
+      "outcome": "YES",
+      "edge": 0.010000000000000009,
+      "percentEdge": 1,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T05:46:46.081Z\"}",
+      "id": "rmo65py3ycmmx1sbeq",
+      "createdAt": "2026-03-19T05:46:46.082Z"
+    },
+    {
+      "eventKey": "fed-rate-cut-june",
+      "outcome": "YES",
+      "edge": 0.015000000000000013,
+      "percentEdge": 1.5,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"fed-rate-cut-june\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"pm_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.37,\"volume24h\":98000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"ka_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.385,\"volume24h\":75000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.015000000000000013,\"percentEdge\":1.5,\"detectedAt\":\"2026-03-19T05:46:46.104Z\"}",
+      "id": "tl9ibrrknbmmx1sbfd",
+      "createdAt": "2026-03-19T05:46:46.105Z"
+    },
+    {
+      "eventKey": "us-election-2028-winner",
+      "outcome": "YES",
+      "edge": 0.010000000000000009,
+      "percentEdge": 1,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T05:46:46.065Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T05:46:46.104Z\"}",
+      "id": "xmwbzyikslommx1sbfd",
+      "createdAt": "2026-03-19T05:46:46.105Z"
+    },
+    {
+      "eventKey": "fed-rate-cut-june",
+      "outcome": "YES",
+      "edge": 0.015000000000000013,
+      "percentEdge": 1.5,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"fed-rate-cut-june\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"pm_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.37,\"volume24h\":98000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"ka_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.385,\"volume24h\":75000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.015000000000000013,\"percentEdge\":1.5,\"detectedAt\":\"2026-03-19T05:46:59.815Z\"}",
+      "id": "a8y4r4iaj3ommx1sm08",
+      "createdAt": "2026-03-19T05:46:59.816Z"
+    },
+    {
+      "eventKey": "us-election-2028-winner",
+      "outcome": "YES",
+      "edge": 0.010000000000000009,
+      "percentEdge": 1,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T05:46:59.815Z\"}",
+      "id": "h434l0jxqkimmx1sm08",
+      "createdAt": "2026-03-19T05:46:59.816Z"
+    },
+    {
+      "eventKey": "fed-rate-cut-june",
+      "outcome": "YES",
+      "edge": 0.015000000000000013,
+      "percentEdge": 1.5,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"fed-rate-cut-june\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"pm_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.37,\"volume24h\":98000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"ka_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.385,\"volume24h\":75000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.015000000000000013,\"percentEdge\":1.5,\"detectedAt\":\"2026-03-19T05:47:02.023Z\"}",
+      "id": "r5mwmjw8meammx1snpk",
+      "createdAt": "2026-03-19T05:47:02.024Z"
+    },
+    {
+      "eventKey": "us-election-2028-winner",
+      "outcome": "YES",
+      "edge": 0.010000000000000009,
+      "percentEdge": 1,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T05:47:02.023Z\"}",
+      "id": "tfc4cfh54p7mmx1snpk",
+      "createdAt": "2026-03-19T05:47:02.024Z"
+    },
+    {
+      "eventKey": "fed-rate-cut-june",
+      "outcome": "YES",
+      "edge": 0.015000000000000013,
+      "percentEdge": 1.5,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"fed-rate-cut-june\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"pm_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.37,\"volume24h\":98000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"ka_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.385,\"volume24h\":75000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.015000000000000013,\"percentEdge\":1.5,\"detectedAt\":\"2026-03-19T05:49:48.127Z\"}",
+      "id": "46iu8go56lymmx1w7vk",
+      "createdAt": "2026-03-19T05:49:48.128Z"
+    },
+    {
+      "eventKey": "us-election-2028-winner",
+      "outcome": "YES",
+      "edge": 0.010000000000000009,
+      "percentEdge": 1,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T05:46:59.797Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T05:49:48.127Z\"}",
+      "id": "qbin3v3gdtmmx1w7vk",
+      "createdAt": "2026-03-19T05:49:48.128Z"
+    },
+    {
+      "eventKey": "fed-rate-cut-june",
+      "outcome": "YES",
+      "edge": 0.015000000000000013,
+      "percentEdge": 1.5,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"fed-rate-cut-june\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"pm_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.37,\"volume24h\":98000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"ka_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.385,\"volume24h\":75000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.015000000000000013,\"percentEdge\":1.5,\"detectedAt\":\"2026-03-19T06:04:18.277Z\"}",
+      "id": "y86abuwy88nmmx2evae",
+      "createdAt": "2026-03-19T06:04:18.278Z"
+    },
+    {
+      "eventKey": "us-election-2028-winner",
+      "outcome": "YES",
+      "edge": 0.010000000000000009,
+      "percentEdge": 1,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T06:04:18.277Z\"}",
+      "id": "n6pw0e2bj99mmx2evae",
+      "createdAt": "2026-03-19T06:04:18.278Z"
+    },
+    {
+      "eventKey": "fed-rate-cut-june",
+      "outcome": "YES",
+      "edge": 0.015000000000000013,
+      "percentEdge": 1.5,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"fed-rate-cut-june\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"pm_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.37,\"volume24h\":98000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"fed-rate-cut-june\",\"marketKey\":\"ka_fed_cut_june_yes\",\"title\":\"Fed cuts in June (YES)\",\"outcome\":\"YES\",\"price\":0.385,\"volume24h\":75000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.015000000000000013,\"percentEdge\":1.5,\"detectedAt\":\"2026-03-19T06:04:18.303Z\"}",
+      "id": "5ltdorsxrmqmmx2evb3",
+      "createdAt": "2026-03-19T06:04:18.303Z"
+    },
+    {
+      "eventKey": "us-election-2028-winner",
+      "outcome": "YES",
+      "edge": 0.010000000000000009,
+      "percentEdge": 1,
+      "sourceA": "polymarket",
+      "sourceB": "kalshi",
+      "payload": "{\"eventKey\":\"us-election-2028-winner\",\"outcome\":\"YES\",\"polymarket\":{\"platform\":\"polymarket\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"pm_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.42,\"volume24h\":125000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://polymarket.com\"},\"kalshi\":{\"platform\":\"kalshi\",\"eventKey\":\"us-election-2028-winner\",\"marketKey\":\"ka_us_election_2028_yes\",\"title\":\"US Election 2028 winner (YES)\",\"outcome\":\"YES\",\"price\":0.43,\"volume24h\":132000,\"updatedAt\":\"2026-03-19T06:04:18.259Z\",\"url\":\"https://kalshi.com\"},\"edge\":0.010000000000000009,\"percentEdge\":1,\"detectedAt\":\"2026-03-19T06:04:18.303Z\"}",
+      "id": "42t3pvn0xxmmx2evb3",
+      "createdAt": "2026-03-19T06:04:18.303Z"
     }
   ],
   "alerts": []

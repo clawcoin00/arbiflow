@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const blueSeries = [
   0.42, 0.56, 0.48, 0.71, 0.63, 0.79, 0.54, 0.46,
@@ -103,6 +103,10 @@ const replayMetricsSeries = blueSeries.map((value, index) => {
 export function MarketReplay() {
   const [cycle, setCycle] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [chartViewportWidth, setChartViewportWidth] = useState(0);
+  const [chartTrackWidth, setChartTrackWidth] = useState(chartWidth);
+  const chartStageRef = useRef<HTMLDivElement | null>(null);
+  const chartTrackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const startedAt = performance.now();
@@ -132,7 +136,39 @@ export function MarketReplay() {
     };
   }, [cycle]);
 
+  useEffect(() => {
+    const stageNode = chartStageRef.current;
+    const trackNode = chartTrackRef.current;
+
+    if (!stageNode || !trackNode) {
+      return;
+    }
+
+    const measure = () => {
+      setChartViewportWidth(stageNode.getBoundingClientRect().width);
+      setChartTrackWidth(trackNode.getBoundingClientRect().width || chartWidth);
+    };
+
+    measure();
+
+    const resizeObserver = new ResizeObserver(() => {
+      measure();
+    });
+
+    resizeObserver.observe(stageNode);
+    resizeObserver.observe(trackNode);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [cycle]);
+
   const currentMetrics = replayMetricsSeries[activeIndex];
+  const chartScale = chartTrackWidth / chartWidth;
+  const activeX = getX(activeIndex) * chartScale;
+  const maxShift = Math.max(chartTrackWidth - chartViewportWidth, 0);
+  const preferredFocusX = chartViewportWidth * 0.68;
+  const chartPanX = Math.min(Math.max(activeX - preferredFocusX, 0), maxShift);
 
   return (
     <section className="replay-section animate-fade-in animate-delay-4">
@@ -224,8 +260,146 @@ export function MarketReplay() {
 
             <div className="replay-chart-shell replay-animate-in" style={{ animationDelay: '420ms' }}>
               <div className="replay-chart-scroll">
-                <div key={cycle} className="replay-chart-stage">
-                  <div className="replay-chart-glow" aria-hidden="true" />
+                <div ref={chartStageRef} className="replay-chart-stage">
+                  <div
+                    key={cycle}
+                    ref={chartTrackRef}
+                    className="replay-chart-track"
+                    style={{ transform: `translate3d(-${chartPanX}px, 0, 0)` }}
+                  >
+                    <div className="replay-chart-glow" aria-hidden="true" />
+
+                    <svg
+                      className="replay-chart-svg"
+                      viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+                      role="img"
+                      aria-label="Replay chart comparing Polymarket and Kalshi prices over time."
+                    >
+                      {Array.from({ length: 5 }, (_, index) => {
+                        const y = chartPadding.top + (plotHeight / 4) * index;
+                        return (
+                          <line
+                            key={`grid-y-${index}`}
+                            x1={chartPadding.left}
+                            y1={y}
+                            x2={chartWidth - chartPadding.right}
+                            y2={y}
+                            stroke="rgba(255,255,255,0.07)"
+                            strokeDasharray="4 8"
+                          />
+                        );
+                      })}
+
+                      {Array.from({ length: 4 }, (_, index) => {
+                        const x = chartPadding.left + (plotWidth / 4) * (index + 1);
+                        return (
+                          <line
+                            key={`grid-x-${index}`}
+                            x1={x}
+                            y1={chartPadding.top}
+                            x2={x}
+                            y2={chartHeight - chartPadding.bottom}
+                            stroke="rgba(255,255,255,0.045)"
+                            strokeDasharray="4 12"
+                          />
+                        );
+                      })}
+
+                      {replayEvents.map((event) => {
+                        const series = event.series === "blue" ? blueSeries : orangeSeries;
+                        const x = getX(event.index);
+                        const y = getY(series[event.index]);
+                        const labelY = Math.max(chartPadding.top + 12, y - 28 + event.offset);
+                        const toneFill = event.tone === "buy" ? "#22C55E" : "#EF4444";
+                        const toneStroke = event.tone === "buy" ? "rgba(74, 222, 128, 0.55)" : "rgba(248, 113, 113, 0.65)";
+                        const lineDash = event.tone === "buy" ? undefined : "6 8";
+                        const eventDelay = `${getEventDelay(event.index)}ms`;
+
+                        return (
+                          <g key={`${event.label}-${event.index}`}>
+                            <line
+                              x1={x}
+                              y1={chartPadding.top}
+                              x2={x}
+                              y2={chartHeight - chartPadding.bottom}
+                              stroke={toneStroke}
+                              strokeDasharray={lineDash}
+                              className="replay-event-line"
+                              style={{ animationDelay: eventDelay }}
+                            />
+                            <rect
+                              x={x - 28}
+                              y={labelY}
+                              width="56"
+                              height="26"
+                              rx="8"
+                              fill={toneFill}
+                              stroke="rgba(255,255,255,0.22)"
+                              className="replay-event-badge"
+                              style={{ animationDelay: eventDelay }}
+                            />
+                            <text
+                              x={x}
+                              y={labelY + 17}
+                              textAnchor="middle"
+                              fill="#F8FAFC"
+                              fontSize="11"
+                              fontWeight="700"
+                              letterSpacing="0.08em"
+                              className="replay-event-badge"
+                              style={{ animationDelay: eventDelay }}
+                            >
+                              {event.label}
+                            </text>
+                          </g>
+                        );
+                      })}
+
+                      <path
+                        d={bluePath}
+                        className="replay-line replay-line-blue"
+                        pathLength={1}
+                      />
+                      <path
+                        d={orangePath}
+                        className="replay-line replay-line-orange"
+                        pathLength={1}
+                      />
+
+                      {[blueSeries, orangeSeries].map((series, seriesIndex) => {
+                        const lastIndex = series.length - 1;
+                        const x = getX(lastIndex);
+                        const y = getY(series[lastIndex]);
+                        const color = seriesIndex === 0 ? "#3B82F6" : "#F97316";
+                        const pointDelay = `${replayLineDurationMs - 320}ms`;
+
+                        return (
+                          <g
+                            key={`last-point-${seriesIndex}`}
+                            className="replay-endpoint"
+                            style={{ animationDelay: pointDelay }}
+                          >
+                            <circle cx={x} cy={y} r="11" fill={color} opacity="0.15" />
+                            <circle cx={x} cy={y} r="4.5" fill={color} stroke="#E4E4E7" strokeWidth="1.5" />
+                          </g>
+                        );
+                      })}
+
+                      {axisLabels.map((label) => (
+                        <text
+                          key={label.label}
+                          x={getX(label.index)}
+                          y={chartHeight - 12}
+                          textAnchor={label.index === blueSeries.length - 1 ? "end" : "middle"}
+                          fill="#6B7280"
+                          fontSize="11"
+                          letterSpacing="0.08em"
+                        >
+                          {label.label}
+                        </text>
+                      ))}
+                    </svg>
+                  </div>
 
                   <div className="replay-chart-callout replay-animate-in" style={{ animationDelay: '560ms' }}>
                     <span className="replay-chart-callout-icon">+</span>
@@ -235,137 +409,6 @@ export function MarketReplay() {
                   <div className="replay-profit-flash" aria-hidden="true">
                     {currentMetrics.recordSpreadLabel} ARBITRAGE! {currentMetrics.totalProfitLabel} LOCKED
                   </div>
-
-                  <svg
-                    className="replay-chart-svg"
-                    viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-                    role="img"
-                    aria-label="Replay chart comparing Polymarket and Kalshi prices over time."
-                  >
-                    {Array.from({ length: 5 }, (_, index) => {
-                      const y = chartPadding.top + (plotHeight / 4) * index;
-                      return (
-                        <line
-                          key={`grid-y-${index}`}
-                          x1={chartPadding.left}
-                          y1={y}
-                          x2={chartWidth - chartPadding.right}
-                          y2={y}
-                          stroke="rgba(255,255,255,0.07)"
-                          strokeDasharray="4 8"
-                        />
-                      );
-                    })}
-
-                    {Array.from({ length: 4 }, (_, index) => {
-                      const x = chartPadding.left + (plotWidth / 4) * (index + 1);
-                      return (
-                        <line
-                          key={`grid-x-${index}`}
-                          x1={x}
-                          y1={chartPadding.top}
-                          x2={x}
-                          y2={chartHeight - chartPadding.bottom}
-                          stroke="rgba(255,255,255,0.045)"
-                          strokeDasharray="4 12"
-                        />
-                      );
-                    })}
-
-                    {replayEvents.map((event) => {
-                      const series = event.series === "blue" ? blueSeries : orangeSeries;
-                      const x = getX(event.index);
-                      const y = getY(series[event.index]);
-                      const labelY = Math.max(chartPadding.top + 12, y - 28 + event.offset);
-                      const toneFill = event.tone === "buy" ? "#22C55E" : "#EF4444";
-                      const toneStroke = event.tone === "buy" ? "rgba(74, 222, 128, 0.55)" : "rgba(248, 113, 113, 0.65)";
-                      const lineDash = event.tone === "buy" ? undefined : "6 8";
-                      const eventDelay = `${getEventDelay(event.index)}ms`;
-
-                      return (
-                        <g key={`${event.label}-${event.index}`}>
-                          <line
-                            x1={x}
-                            y1={chartPadding.top}
-                            x2={x}
-                            y2={chartHeight - chartPadding.bottom}
-                            stroke={toneStroke}
-                            strokeDasharray={lineDash}
-                            className="replay-event-line"
-                            style={{ animationDelay: eventDelay }}
-                          />
-                          <rect
-                            x={x - 28}
-                            y={labelY}
-                            width="56"
-                            height="26"
-                            rx="8"
-                            fill={toneFill}
-                            stroke="rgba(255,255,255,0.22)"
-                            className="replay-event-badge"
-                            style={{ animationDelay: eventDelay }}
-                          />
-                          <text
-                            x={x}
-                            y={labelY + 17}
-                            textAnchor="middle"
-                            fill="#F8FAFC"
-                            fontSize="11"
-                            fontWeight="700"
-                            letterSpacing="0.08em"
-                            className="replay-event-badge"
-                            style={{ animationDelay: eventDelay }}
-                          >
-                            {event.label}
-                          </text>
-                        </g>
-                      );
-                    })}
-
-                    <path
-                      d={bluePath}
-                      className="replay-line replay-line-blue"
-                      pathLength={1}
-                    />
-                    <path
-                      d={orangePath}
-                      className="replay-line replay-line-orange"
-                      pathLength={1}
-                    />
-
-                    {[blueSeries, orangeSeries].map((series, seriesIndex) => {
-                      const lastIndex = series.length - 1;
-                      const x = getX(lastIndex);
-                      const y = getY(series[lastIndex]);
-                      const color = seriesIndex === 0 ? "#3B82F6" : "#F97316";
-                      const pointDelay = `${replayLineDurationMs - 320}ms`;
-
-                      return (
-                        <g
-                          key={`last-point-${seriesIndex}`}
-                          className="replay-endpoint"
-                          style={{ animationDelay: pointDelay }}
-                        >
-                          <circle cx={x} cy={y} r="11" fill={color} opacity="0.15" />
-                          <circle cx={x} cy={y} r="4.5" fill={color} stroke="#E4E4E7" strokeWidth="1.5" />
-                        </g>
-                      );
-                    })}
-
-                    {axisLabels.map((label) => (
-                      <text
-                        key={label.label}
-                        x={getX(label.index)}
-                        y={chartHeight - 12}
-                        textAnchor={label.index === blueSeries.length - 1 ? "end" : "middle"}
-                        fill="#6B7280"
-                        fontSize="11"
-                        letterSpacing="0.08em"
-                      >
-                        {label.label}
-                      </text>
-                    ))}
-                  </svg>
 
                   <div className="replay-legend replay-animate-in" style={{ animationDelay: '760ms' }}>
                     <div className="replay-legend-row">
