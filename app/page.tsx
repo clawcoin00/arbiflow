@@ -69,27 +69,72 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      {/* Navigation */}
-      <nav className="nav-container">
-        <div className="nav-inner">
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-icon">AF</div>
-            <span className="nav-logo-text">ArbiFlow</span>
+      {/* Navigation - Style like arbs.xyz */}
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        background: 'rgba(9, 9, 11, 0.6)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: '56px',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 16px'
+        }}>
+          {/* Logo */}
+          <a href="/" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            textDecoration: 'none',
+            color: 'inherit'
+          }}>
+            <div style={{
+              width: '28px',
+              height: '28px',
+              background: 'linear-gradient(135deg, #22c55e 0%, #4ade80 100%)',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span style={{
+              fontWeight: 800,
+              fontSize: '16px',
+              letterSpacing: '-0.02em'
+            }}>ARBS</span>
           </a>
           
-          <div className="nav-links">
-            <a href="/" className="nav-link">Dashboard</a>
-            <a href="/pricing" className="nav-link">Pricing</a>
-            <a href="/admin" className="nav-link">Admin</a>
-          </div>
-          
+          {/* Get Access Button */}
           <a 
-            href="https://t.me/ArbiFlowAnnouncements" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="nav-cta"
+            href="/pricing"
+            style={{
+              background: '#e4e4e7',
+              color: '#09090b',
+              fontWeight: 600,
+              fontSize: '12px',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              transition: 'all 0.2s',
+              border: 'none',
+              cursor: 'pointer'
+            }}
           >
-            Join Telegram
+            GET ACCESS
           </a>
         </div>
       </nav>
@@ -317,84 +362,102 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Plan Status */}
-      <section style={{ padding: '40px 0' }}>
+      {/* Pricing Plans */}
+      <section style={{ padding: '60px 0' }}>
         <div className="container-main">
-          <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span className="section-label">Pricing</span>
+            <h2 className="section-title">Choose Your Plan</h2>
+            <p style={{ color: '#a1a1aa', maxWidth: '500px', margin: '0 auto' }}>
+              Start free and upgrade when you need more signals.
+            </p>
+          </div>
+
+          <div style={{ 
+            display: 'grid', 
+            gap: '16px',
+            maxWidth: '800px',
+            margin: '0 auto',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
+          }}>
+            {/* Free Plan */}
             <div className="card">
+              <div className="card-header">
+                <div>
+                  <div className="badge badge-free" style={{ marginBottom: '8px' }}>FREE</div>
+                  <h3 style={{ fontSize: '20px', fontWeight: 600 }}>Explorer</h3>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <span style={{ fontSize: '32px', fontWeight: 700 }}>$0</span>
+                  <span style={{ color: '#71717a', fontSize: '14px' }}>/mo</span>
+                </div>
+              </div>
               <div className="card-body">
-                {data?.plan === 'PRO' ? (
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ 
-                      width: '48px', 
-                      height: '48px', 
-                      borderRadius: '50%',
-                      background: 'rgba(34, 197, 94, 0.1)',
-                      border: '2px solid rgba(34, 197, 94, 0.3)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: '0 auto 16px'
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px' }}>
+                  {[
+                    '20 alerts per day',
+                    'Basic dashboard',
+                    'Telegram notifications',
+                    'Opportunities 0%–2% edge'
+                  ].map((feature, i) => (
+                    <li key={i} style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '12px',
+                      padding: '8px 0',
+                      color: '#a1a1aa'
                     }}>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
                         <polyline points="20,6 9,17 4,12" />
                       </svg>
-                    </div>
-                    <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>Pro Plan Active</h3>
-                    <p style={{ color: '#a1a1aa', fontSize: '14px', marginBottom: '16px' }}>
-                      Viewing opportunities {edgeWindowLabel(data.edgeWindow)}
-                    </p>
-                    <button 
-                      onClick={() => { setEmail(''); loadData(); }}
-                      style={{ 
-                        background: 'transparent',
-                        border: 'none',
-                        color: '#71717a',
-                        fontSize: '13px',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                      <p style={{ color: '#a1a1aa', fontSize: '14px', margin: '0 0 8px' }}>
-                        Free plan: <span style={{ color: '#fafafa' }}>{edgeWindowLabel(data?.edgeWindow)}</span>
-                      </p>
-                      <p style={{ color: '#71717a', fontSize: '13px', margin: 0 }}>
-                        <a href="/pricing" style={{ color: '#22c55e' }}>Upgrade to Pro</a> for premium edge signals
-                      </p>
-                    </div>
-                    
-                    {data?.fallbackApplied && (
-                      <p style={{ 
-                        textAlign: 'center', 
-                        color: '#f97316', 
-                        fontSize: '12px',
-                        marginBottom: '16px'
-                      }}>
-                        Showing extended range (no opportunities in primary tier)
-                      </p>
-                    )}
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <a href="/pricing" className="btn-secondary" style={{ width: '100%', display: 'flex' }}>
+                  Get Started Free
+                </a>
+              </div>
+            </div>
 
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <input
-                        type="email"
-                        className="input-main"
-                        placeholder="email@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && onLogin()}
-                        style={{ flex: 1 }}
-                      />
-                      <button className="btn-secondary" onClick={onLogin}>
-                        Check
-                      </button>
-                    </div>
-                  </div>
-                )}
+            {/* Pro Plan */}
+            <div className="card" style={{ borderColor: 'rgba(34, 197, 94, 0.3)' }}>
+              <div className="card-header">
+                <div>
+                  <div className="badge badge-pro" style={{ marginBottom: '8px' }}>PRO</div>
+                  <h3 style={{ fontSize: '20px', fontWeight: 600 }}>Professional</h3>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <span style={{ fontSize: '32px', fontWeight: 700, color: '#22c55e' }}>$99</span>
+                  <span style={{ color: '#71717a', fontSize: '14px' }}>/mo</span>
+                </div>
+              </div>
+              <div className="card-body">
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px' }}>
+                  {[
+                    '500 alerts per day',
+                    'Priority delivery',
+                    'Premium 5%+ edge signals',
+                    'Historical data',
+                    'Email support'
+                  ].map((feature, i) => (
+                    <li key={i} style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '12px',
+                      padding: '8px 0',
+                      color: '#fafafa'
+                    }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <polyline points="20,6 9,17 4,12" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <a href="/pricing" className="btn-primary" style={{ width: '100%', display: 'flex' }}>
+                  Upgrade to Pro
+                </a>
               </div>
             </div>
           </div>
