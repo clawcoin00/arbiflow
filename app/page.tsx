@@ -142,19 +142,21 @@ export default function HomePage() {
           <Link
             href={AUTH_SIGNUP_HREF}
             style={{
-              background: '#22c55e',
-              color: '#000',
+              background: '#e4e4e7',
+              color: '#09090b',
               fontWeight: 600,
-              fontSize: '12px',
+              fontSize: '11px',
               padding: '8px 16px',
               borderRadius: '8px',
               textDecoration: 'none',
               transition: 'all 0.2s',
               border: 'none',
               cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
             }}
           >
-            Get Started
+            GET ACCESS
           </Link>
         </div>
       </nav>
