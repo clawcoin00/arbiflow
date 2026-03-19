@@ -120,12 +120,12 @@ export default function HomePage() {
             }}>ArbiFlow</span>
           </a>
           
-          {/* Get Access Button */}
+          {/* Get Started Button */}
           <a 
             href="/pricing"
             style={{
-              background: '#e4e4e7',
-              color: '#09090b',
+              background: '#22c55e',
+              color: '#000',
               fontWeight: 600,
               fontSize: '12px',
               padding: '8px 16px',
@@ -136,7 +136,7 @@ export default function HomePage() {
               cursor: 'pointer'
             }}
           >
-            GET ACCESS
+            Get Started
           </a>
         </div>
       </nav>
