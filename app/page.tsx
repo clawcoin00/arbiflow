@@ -10,12 +10,15 @@ import { GuaranteeSection } from './components/GuaranteeSection';
 import { HowItWorksSection } from './components/HowItWorksSection';
 import { MarketReplay } from './components/MarketReplay';
 import { RealArbitragesSection } from './components/RealArbitragesSection';
+import type { Platform } from '@/src/lib/types';
+import { getPlatformLabel } from '@/src/lib/venues';
 
 type Opportunity = {
   eventKey: string;
   outcome: string;
-  polymarket: { price: number };
-  kalshi: { price: number };
+  pairKey: string;
+  sourceA: { platform: Platform; price: number };
+  sourceB: { platform: Platform; price: number };
   edge: number;
   percentEdge: number;
 };
@@ -26,8 +29,18 @@ type DataResponse = {
   fallbackApplied?: boolean;
   opportunities: Opportunity[];
   sources: {
-    polymarketCount: number;
-    kalshiCount: number;
+    platforms: Array<{
+      platform: Platform;
+      label: string;
+      count: number;
+      usingMock: boolean;
+    }>;
+    pairs: Array<{
+      pairKey: string;
+      label: string;
+      navLabel: string;
+      count: number;
+    }>;
     usingMock: boolean;
   };
   generatedAt: string;
@@ -174,7 +187,8 @@ export default function HomePage() {
           </h1>
 
           <p className="hero-subtitle animate-fade-in animate-delay-2">
-            Real-time arbitrage detection across <strong>Polymarket</strong> and <strong>Kalshi</strong>.
+            Real-time arbitrage detection across <strong>Polymarket</strong>, <strong>Opinion</strong>,{' '}
+            <strong>Kalshi</strong>, <strong>Predict.fun</strong> and more.
             <br />
             Zero execution. Pure signals. Profit regardless of the outcome.
           </p>
@@ -216,7 +230,7 @@ export default function HomePage() {
                 <div className="stat-label">Edge Range</div>
               </div>
               <div className="stat-card animate-fade-in animate-delay-3">
-                <div className="stat-value">2</div>
+                <div className="stat-value">{data.sources.platforms.length}</div>
                 <div className="stat-label">Markets Monitored</div>
               </div>
               <div className="stat-card animate-fade-in animate-delay-4">
@@ -264,16 +278,17 @@ export default function HomePage() {
                   <thead>
                     <tr>
                       <th>Event</th>
+                      <th>Pair</th>
                       <th>Outcome</th>
-                      <th style={{ textAlign: 'right' }}>Polymarket</th>
-                      <th style={{ textAlign: 'right' }}>Kalshi</th>
+                      <th style={{ textAlign: 'right' }}>Source A</th>
+                      <th style={{ textAlign: 'right' }}>Source B</th>
                       <th style={{ textAlign: 'right' }}>Edge</th>
                     </tr>
                   </thead>
                   <tbody>
                     {!data || data.opportunities.length === 0 ? (
                       <tr>
-                        <td colSpan={5} style={{ textAlign: 'center', padding: '60px 20px' }}>
+                        <td colSpan={6} style={{ textAlign: 'center', padding: '60px 20px' }}>
                           <p style={{ color: '#71717a', fontSize: '14px', margin: 0 }}>No opportunities in current range</p>
                         </td>
                       </tr>
@@ -282,6 +297,11 @@ export default function HomePage() {
                         <tr key={`${op.eventKey}-${op.outcome}-${i}`}>
                           <td>
                             <span style={{ fontWeight: 500 }}>{op.eventKey}</span>
+                          </td>
+                          <td>
+                            <span style={{ color: '#a1a1aa', fontSize: '13px' }}>
+                              {getPlatformLabel(op.sourceA.platform)} / {getPlatformLabel(op.sourceB.platform)}
+                            </span>
                           </td>
                           <td>
                             <span
@@ -296,12 +316,12 @@ export default function HomePage() {
                           </td>
                           <td style={{ textAlign: 'right' }}>
                             <span className="font-mono" style={{ fontSize: '14px' }}>
-                              {op.polymarket.price.toFixed(3)}
+                              {getPlatformLabel(op.sourceA.platform)} {op.sourceA.price.toFixed(3)}
                             </span>
                           </td>
                           <td style={{ textAlign: 'right' }}>
                             <span className="font-mono" style={{ fontSize: '14px' }}>
-                              {op.kalshi.price.toFixed(3)}
+                              {getPlatformLabel(op.sourceB.platform)} {op.sourceB.price.toFixed(3)}
                             </span>
                           </td>
                           <td style={{ textAlign: 'right' }}>

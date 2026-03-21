@@ -1,4 +1,4 @@
-import type { Plan } from './db';
+import type { Plan } from './user-types';
 
 type EdgeWindow = {
   minEdge: number;

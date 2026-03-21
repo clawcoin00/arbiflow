@@ -9,10 +9,22 @@ export default function AdminPage() {
   const [email, setEmail] = useState('');
   const [plan, setPlan] = useState<'FREE' | 'PRO'>('FREE');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const load = async () => {
     const res = await fetch('/api/admin/users');
     const data = await res.json();
+    if (!res.ok || !data.ok) {
+      setUsers([]);
+      setError(
+        data.error === 'supabase_admin_not_configured'
+          ? 'Configure SUPABASE_SERVICE_ROLE_KEY para listar e editar usuarios reais do Supabase.'
+          : 'Unable to load users right now.',
+      );
+      return;
+    }
+
+    setError('');
     setUsers(data.users || []);
   };
 
@@ -22,14 +34,26 @@ export default function AdminPage() {
     if (!email) return;
     setLoading(true);
     try {
-      await fetch('/api/auth/upsert-user', {
+      const res = await fetch('/api/auth/upsert-user', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ email, plan }),
       });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'save_failed');
+      }
       setEmail('');
       setPlan('FREE');
+      setError('');
       await load();
+    } catch (caughtError) {
+      const message = caughtError instanceof Error ? caughtError.message : 'save_failed';
+      setError(
+        message === 'supabase_admin_not_configured'
+          ? 'Configure SUPABASE_SERVICE_ROLE_KEY para editar planos pelo admin.'
+          : 'Unable to save user right now.',
+      );
     } finally {
       setLoading(false);
     }
@@ -68,6 +92,7 @@ export default function AdminPage() {
           <div className="mb-12">
             <h1 className="heading-mono text-xs text-zinc-500 mb-4">Admin</h1>
             <p className="heading-display text-3xl text-white">User Management</p>
+            {error ? <p className="text-sm text-red-400 mt-4">{error}</p> : null}
           </div>
 
           {/* Stats */}

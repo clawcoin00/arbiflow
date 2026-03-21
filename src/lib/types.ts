@@ -1,4 +1,4 @@
-export type Platform = 'polymarket' | 'kalshi';
+export type Platform = 'polymarket' | 'opinion' | 'kalshi' | 'probo' | 'predictfun' | 'limitless';
 
 export type Outcome = 'YES' | 'NO';
 
@@ -17,8 +17,9 @@ export interface MarketQuote {
 export interface Opportunity {
   eventKey: string;
   outcome: Outcome;
-  polymarket: MarketQuote;
-  kalshi: MarketQuote;
+  pairKey: string;
+  sourceA: MarketQuote;
+  sourceB: MarketQuote;
   edge: number; // absolute spread between platforms (0..1)
   percentEdge: number; // edge * 100
   detectedAt: string;

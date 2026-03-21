@@ -20,6 +20,10 @@ Open: http://localhost:3000
 Set in `.env.local`:
 
 ```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
 TELEGRAM_BOT_TOKEN=...
 TELEGRAM_CHAT_ID=-100...
 ALERT_EDGE_MIN=0.05
@@ -27,12 +31,30 @@ ALERT_COOLDOWN_MS=1800000
 
 # Optional (if omitted, app falls back to mock data)
 POLYMARKET_API_BASE=
+OPINION_API_BASE=
+OPINION_API_KEY=
 KALSHI_API_BASE=
+PROBO_API_BASE=
+PREDICTFUN_API_BASE=
+PREDICTFUN_API_KEY=
+LIMITLESS_API_BASE=
+LIMITLESS_API_KEY=
 
 STRIPE_SECRET_KEY=
+STRIPE_PRICE_PRO_WEEKLY=
 STRIPE_PRICE_PRO_MONTHLY=
+STRIPE_PRICE_PRO_ANNUAL=
 STRIPE_WEBHOOK_SECRET=
 ```
+
+`Opinion`, `Predict.fun`, and `Limitless` need API credentials for live data; without them, the dashboard keeps showing the multi-venue demo feed.
+
+For real Supabase email signup/login:
+
+- In `Authentication > URL Configuration`, set `Site URL` to `http://localhost:3000`
+- Add `http://localhost:3000/auth/callback` to the redirect allow list
+- Email auth / magic links are enabled by default in hosted Supabase projects
+- `SUPABASE_SERVICE_ROLE_KEY` is only needed for server-side plan changes (Stripe webhook, admin upserts/listing)
 
 ## API Routes
 

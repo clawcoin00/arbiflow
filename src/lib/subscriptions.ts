@@ -1,13 +1,9 @@
-import { getUserByEmail, upsertUser } from './db';
+import { setAppUserPlan } from './app-users';
 
-export function activateProByEmail(email: string) {
-  const existing = getUserByEmail(email);
-  if (!existing) return upsertUser(email, 'PRO');
-  return upsertUser(email, 'PRO');
+export async function activateProByEmail(email: string) {
+  return setAppUserPlan(email, 'PRO');
 }
 
-export function downgradeToFreeByEmail(email: string) {
-  const existing = getUserByEmail(email);
-  if (!existing) return upsertUser(email, 'FREE');
-  return upsertUser(email, 'FREE');
+export async function downgradeToFreeByEmail(email: string) {
+  return setAppUserPlan(email, 'FREE');
 }

@@ -25,14 +25,14 @@ export async function POST(req: Request) {
       case 'checkout.session.completed': {
         const session = event.data.object as any;
         const email = session?.customer_details?.email || session?.customer_email || session?.metadata?.email;
-        if (email) activateProByEmail(String(email));
+        if (email) await activateProByEmail(String(email));
         break;
       }
       case 'customer.subscription.deleted':
       case 'customer.subscription.paused': {
         const sub = event.data.object as any;
         const email = sub?.metadata?.email;
-        if (email) downgradeToFreeByEmail(String(email));
+        if (email) await downgradeToFreeByEmail(String(email));
         break;
       }
       default:

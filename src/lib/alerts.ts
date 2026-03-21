@@ -1,12 +1,13 @@
 import type { Opportunity } from './types';
-import { sendTelegram } from './telegram';
 import { config } from './config';
+import { sendTelegram } from './telegram';
+import { getPlatformLabel } from './venues';
 
 // In-memory anti-spam store (resets on process restart in MVP).
 const lastAlertAt = new Map<string, number>();
 
 function keyFor(op: Opportunity) {
-  return `${op.eventKey}::${op.outcome}`;
+  return `${op.pairKey}::${op.eventKey}::${op.outcome}`;
 }
 
 export function shouldAlert(op: Opportunity, now = Date.now()) {
@@ -24,14 +25,14 @@ export async function sendOpportunityAlert(op: Opportunity) {
   }
 
   const text = [
-    '🚨 Arbitrage Opportunity',
+    'Arbitrage Opportunity',
     `Event: ${op.eventKey}`,
     `Outcome: ${op.outcome}`,
     `Edge: ${op.percentEdge}%`,
-    `Polymarket: ${op.polymarket.price.toFixed(3)}`,
-    `Kalshi: ${op.kalshi.price.toFixed(3)}`,
-    op.polymarket.url ? `Polymarket URL: ${op.polymarket.url}` : '',
-    op.kalshi.url ? `Kalshi URL: ${op.kalshi.url}` : '',
+    `${getPlatformLabel(op.sourceA.platform)}: ${op.sourceA.price.toFixed(3)}`,
+    `${getPlatformLabel(op.sourceB.platform)}: ${op.sourceB.price.toFixed(3)}`,
+    op.sourceA.url ? `${getPlatformLabel(op.sourceA.platform)} URL: ${op.sourceA.url}` : '',
+    op.sourceB.url ? `${getPlatformLabel(op.sourceB.platform)} URL: ${op.sourceB.url}` : '',
     `Detected: ${op.detectedAt}`,
   ]
     .filter(Boolean)

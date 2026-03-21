@@ -1,4 +1,5 @@
-import type { MarketQuote, Opportunity, Outcome } from './types';
+import type { MarketQuote, Opportunity, Outcome, Platform } from './types';
+import { dashboardPairs } from './venues';
 
 function normalizeKey(input: string): string {
   return input
@@ -19,38 +20,47 @@ function indexByEventAndOutcome(quotes: MarketQuote[]) {
 }
 
 export function detectOpportunities(
-  polymarketQuotes: MarketQuote[],
-  kalshiQuotes: MarketQuote[],
+  quotesByPlatform: Partial<Record<Platform, MarketQuote[]>>,
   minEdge = 0.05,
 ): Opportunity[] {
-  const pMap = indexByEventAndOutcome(polymarketQuotes);
-  const kMap = indexByEventAndOutcome(kalshiQuotes);
+  const maps = new Map<Platform, Map<string, MarketQuote>>();
+  const allEventKeys = new Set<string>();
+
+  for (const pair of dashboardPairs) {
+    const leftQuotes = quotesByPlatform[pair.left] ?? [];
+    const rightQuotes = quotesByPlatform[pair.right] ?? [];
+
+    if (!maps.has(pair.left)) maps.set(pair.left, indexByEventAndOutcome(leftQuotes));
+    if (!maps.has(pair.right)) maps.set(pair.right, indexByEventAndOutcome(rightQuotes));
+
+    for (const quote of leftQuotes) allEventKeys.add(normalizeKey(quote.eventKey));
+    for (const quote of rightQuotes) allEventKeys.add(normalizeKey(quote.eventKey));
+  }
 
   const results: Opportunity[] = [];
   const outcomes: Outcome[] = ['YES', 'NO'];
 
-  const allEventKeys = new Set<string>();
-  for (const q of polymarketQuotes) allEventKeys.add(normalizeKey(q.eventKey));
-  for (const q of kalshiQuotes) allEventKeys.add(normalizeKey(q.eventKey));
-
   for (const eventKey of allEventKeys) {
     for (const outcome of outcomes) {
-      const p = pMap.get(`${eventKey}::${outcome}`);
-      const k = kMap.get(`${eventKey}::${outcome}`);
-      if (!p || !k) continue;
+      for (const pair of dashboardPairs) {
+        const leftQuote = maps.get(pair.left)?.get(`${eventKey}::${outcome}`);
+        const rightQuote = maps.get(pair.right)?.get(`${eventKey}::${outcome}`);
+        if (!leftQuote || !rightQuote) continue;
 
-      const edge = Math.abs(p.price - k.price);
-      if (edge < minEdge) continue;
+        const edge = Math.abs(leftQuote.price - rightQuote.price);
+        if (edge < minEdge) continue;
 
-      results.push({
-        eventKey,
-        outcome,
-        polymarket: p,
-        kalshi: k,
-        edge,
-        percentEdge: Number((edge * 100).toFixed(2)),
-        detectedAt: new Date().toISOString(),
-      });
+        results.push({
+          eventKey,
+          outcome,
+          pairKey: pair.key,
+          sourceA: leftQuote,
+          sourceB: rightQuote,
+          edge,
+          percentEdge: Number((edge * 100).toFixed(2)),
+          detectedAt: new Date().toISOString(),
+        });
+      }
     }
   }
 

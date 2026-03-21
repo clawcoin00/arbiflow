@@ -81,9 +81,9 @@ export async function postOpportunityAlert(
 🎯 ${outcome}
 📈 Edge: +${percentEdge.toFixed(2)}%
 
-💰 Opportunity detected between Polymarket and Kalshi
+💰 Cross-market opportunity detected
 
-#ArbiFlow #Arbitrage #Polymarket #Kalshi`;
+#ArbiFlow #Arbitrage #PredictionMarkets`;
 
   return postTweet(text);
 }

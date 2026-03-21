@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-
-export type Plan = 'FREE' | 'PRO';
+import type { Plan } from './user-types';
 
 export interface DbUser {
   id: string;
@@ -66,7 +65,8 @@ const id = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
 export function upsertUser(email: string, plan: Plan = 'FREE') {
   const db = readDb();
   const now = new Date().toISOString();
-  let user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  let user = db.users.find((existingUser) => existingUser.email.toLowerCase() === email.toLowerCase());
+
   if (!user) {
     user = { id: id(), email, plan, createdAt: now, updatedAt: now };
     db.users.push(user);
@@ -74,18 +74,19 @@ export function upsertUser(email: string, plan: Plan = 'FREE') {
     user.plan = plan;
     user.updatedAt = now;
   }
+
   writeDb(db);
   return user;
 }
 
 export function getUserByEmail(email: string) {
   const db = readDb();
-  return db.users.find((u) => u.email.toLowerCase() === email.toLowerCase()) ?? null;
+  return db.users.find((user) => user.email.toLowerCase() === email.toLowerCase()) ?? null;
 }
 
 export function listUsers() {
   const db = readDb();
-  return [...db.users].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+  return [...db.users].sort((left, right) => (left.createdAt < right.createdAt ? 1 : -1));
 }
 
 export function saveOpportunities(items: Omit<DbOpportunity, 'id' | 'createdAt'>[]) {

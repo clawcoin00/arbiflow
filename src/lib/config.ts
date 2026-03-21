@@ -8,5 +8,12 @@ export const config = {
   sources: {
     polymarketApiBase: process.env.POLYMARKET_API_BASE ?? '',
     kalshiApiBase: process.env.KALSHI_API_BASE ?? '',
+    opinionApiBase: process.env.OPINION_API_BASE ?? '',
+    opinionApiKey: process.env.OPINION_API_KEY ?? '',
+    proboApiBase: process.env.PROBO_API_BASE ?? '',
+    predictfunApiBase: process.env.PREDICTFUN_API_BASE ?? '',
+    predictfunApiKey: process.env.PREDICTFUN_API_KEY ?? '',
+    limitlessApiBase: process.env.LIMITLESS_API_BASE ?? '',
+    limitlessApiKey: process.env.LIMITLESS_API_KEY ?? '',
   },
 };

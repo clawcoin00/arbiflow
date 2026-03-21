@@ -1,18 +1,21 @@
 import { detectOpportunities } from '@/src/lib/arbitrage';
 import { sendOpportunityAlert } from '@/src/lib/alerts';
+import { getAppUserByEmail } from '@/src/lib/app-users';
 import { config } from '@/src/lib/config';
-import { countAlertsForUserInLast24h, saveAlert, upsertUser } from '@/src/lib/db';
+import { countAlertsForUserInLast24h, saveAlert } from '@/src/lib/db';
 import { planLimits } from '@/src/lib/plans';
 import { fetchAllQuotes } from '@/src/lib/sources';
+import type { Plan } from '@/src/lib/user-types';
 
 export async function POST(req: Request) {
-  const { polymarket, kalshi } = await fetchAllQuotes();
-  const opportunities = detectOpportunities(polymarket, kalshi, config.alertEdgeMin);
+  const quotesByPlatform = await fetchAllQuotes();
+  const opportunities = detectOpportunities(quotesByPlatform, config.alertEdgeMin);
 
   // MVP auth: user is identified by header (to be replaced by real auth/session in next phase)
   const headerEmail = req.headers.get('x-user-email')?.trim();
   const email = headerEmail || 'owner@arbiflow.online';
-  const user = upsertUser(email, 'FREE');
+  const storedUser = await getAppUserByEmail(email);
+  const user = storedUser ?? { id: email.toLowerCase(), email, plan: 'FREE' as Plan };
 
   const dailyCount = countAlertsForUserInLast24h(user.id);
   const limit = planLimits[user.plan].alertsPerDay;

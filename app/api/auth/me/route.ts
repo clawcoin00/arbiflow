@@ -1,10 +1,9 @@
-import { getUserByEmail } from '@/src/lib/db';
+import { getAppUserByEmail, getCurrentAppUser } from '@/src/lib/app-users';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const email = searchParams.get('email')?.trim();
-  if (!email) return Response.json({ ok: false, error: 'email_required' }, { status: 400 });
 
-  const user = getUserByEmail(email);
+  const user = email ? await getAppUserByEmail(email) : await getCurrentAppUser();
   return Response.json({ ok: true, user });
 }
