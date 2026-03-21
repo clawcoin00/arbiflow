@@ -50,7 +50,7 @@ const plans: PricingPlan[] = [
     stateLabel: 'Most Popular',
     price: '$99',
     priceSuffix: '/month',
-    priceMeta: 'Built for active traders who want the full Arbiflow signal lane at normal operating cadence.',
+    priceMeta: 'Built for active traders who want the full ArbsFlow signal lane at normal operating cadence.',
     description: 'The main plan for traders who want faster alerts, deeper edges, and the cleanest daily workflow.',
     features: ['500 alerts per day', 'Priority delivery', 'Premium 5%+ edge feed'],
     ctaLabel: 'Start Monthly',
@@ -94,7 +94,7 @@ const paidPlanFeatures = [
   },
   {
     title: 'Cancel-anytime billing',
-    copy: 'Subscriptions stay simple through Stripe while Arbiflow keeps the workflow itself focused on signals.',
+    copy: 'Subscriptions stay simple through Stripe while ArbsFlow keeps the workflow itself focused on signals.',
   },
 ];
 
@@ -198,7 +198,7 @@ export default function PricingPage() {
 
             <Link href="/" className={styles.brand}>
               <span className={styles.brandMark}>AF</span>
-              <span className={styles.brandText}>ArbiFlow</span>
+              <span className={styles.brandText}>ArbsFlow</span>
             </Link>
           </div>
 
@@ -232,7 +232,7 @@ export default function PricingPage() {
                 type="email"
                 inputMode="email"
                 autoComplete="email"
-                placeholder="trader@arbiflow.online"
+                placeholder="trader@arbsflow.online"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
@@ -319,7 +319,7 @@ export default function PricingPage() {
 
         <section className={styles.guaranteeBlock}>
           <strong>Need a lower-risk entry? Start Weekly. Need steady usage? Go Monthly or lock Annual.</strong>
-          <p>All three paid lanes now route through Stripe with the same account email you already use in Arbiflow.</p>
+          <p>All three paid lanes now route through Stripe with the same account email you already use in ArbsFlow.</p>
         </section>
 
         <section className={styles.faqSection}>

@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   }
 
   const stripe = getStripe();
-  const origin = process.env.NEXT_PUBLIC_BASE_URL || 'https://arbiflow.online';
+  const origin = process.env.NEXT_PUBLIC_BASE_URL || 'https://arbsflow.online';
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',

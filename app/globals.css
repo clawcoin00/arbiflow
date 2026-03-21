@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ArbiFlow — Clean Design System */
+/* ArbsFlow — Clean Design System */
 
 :root {
   --bg-base: #09090b;
@@ -5817,3 +5817,4 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #52525b;
 }
+

@@ -39,7 +39,7 @@ export function GuaranteeSection() {
 
                 <p>
                   If you do not make back your subscription cost in your first month of trading, your second month is
-                  <strong> 100% subsidized by ArbiFlow.</strong>
+                  <strong> 100% subsidized by ArbsFlow.</strong>
                 </p>
 
                 <small>

@@ -176,7 +176,7 @@ export function MarketReplay() {
         <div className="replay-copy">
           <span className="section-label">Live Replay</span>
           <p className="replay-copy-text">
-            A filled Arbiflow trade, visualized in the same dark terminal-style language users expect from premium arbitrage tools.
+            A filled ArbsFlow trade, visualized in the same dark terminal-style language users expect from premium arbitrage tools.
           </p>
         </div>
 
@@ -216,7 +216,7 @@ export function MarketReplay() {
                     <span className="replay-market-question">Matched YES contract reprices slower on news.</span>
                   </div>
                   <p className="replay-market-note">
-                    Arbiflow watches both books, flags the spread, and shows where entries and exits lock the edge.
+                    ArbsFlow watches both books, flags the spread, and shows where entries and exits lock the edge.
                   </p>
                 </div>
               </div>

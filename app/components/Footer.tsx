@@ -7,11 +7,9 @@ export function Footer() {
             <div className="w-6 h-6 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center font-bold text-zinc-900 text-xs">
               A
             </div>
-            <span className="font-semibold">ArbiFlow</span>
+            <span className="font-semibold">ArbsFlow</span>
           </div>
-          <p className="text-zinc-500 text-sm">
-            © 2026 ArbiFlow. Real-time arbitrage alerts for prediction markets.
-          </p>
+          <p className="text-zinc-500 text-sm">(c) 2026 ArbsFlow. Real-time arbitrage alerts for prediction markets.</p>
           <div className="flex items-center gap-4">
             <a href="https://t.me/+zWZEAjCoUjM0YTk5" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-100 transition-colors">
               Telegram

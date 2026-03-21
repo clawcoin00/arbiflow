@@ -343,7 +343,7 @@ function AlertVisual() {
       <div className="protocol-telegram-header">
         <div className="protocol-telegram-avatar">AF</div>
         <div>
-          <strong>ArbiFlow Bot</strong>
+          <strong>ArbsFlow Bot</strong>
           <span>bot • live notifications</span>
         </div>
       </div>
@@ -442,7 +442,7 @@ const steps: Step[] = [
     number: '03',
     title: 'You Lock In Profit',
     description:
-      'When the spread peaks, Arbiflow alerts you instantly so you can close into strength and capture the profit without hunting for the exit yourself.',
+      'When the spread peaks, ArbsFlow alerts you instantly so you can close into strength and capture the profit without hunting for the exit yourself.',
     accent: 'SYSTEM OPTIMIZED',
     layout: 'left',
     renderVisual: () => <AlertVisual />,

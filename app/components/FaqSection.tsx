@@ -5,7 +5,7 @@ const faqs = [
   {
     question: 'Do I need prior trading experience?',
     answer:
-      'No. ArbiFlow is designed to surface mispricings clearly, show the sizing logic, and guide execution without requiring discretionary trading.',
+      'No. ArbsFlow is designed to surface mispricings clearly, show the sizing logic, and guide execution without requiring discretionary trading.',
   },
   {
     question: 'Is this legal?',
@@ -73,7 +73,7 @@ export function FaqSection() {
               <span key={item}>{item}</span>
             ))}
           </div>
-          <p>(c) 2026 ArbiFlow</p>
+          <p>(c) 2026 ArbsFlow</p>
         </div>
       </footer>
     </>

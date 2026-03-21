@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
   // MVP auth: user is identified by header (to be replaced by real auth/session in next phase)
   const headerEmail = req.headers.get('x-user-email')?.trim();
-  const email = headerEmail || 'owner@arbiflow.online';
+  const email = headerEmail || 'owner@arbsflow.online';
   const storedUser = await getAppUserByEmail(email);
   const user = storedUser ?? { id: email.toLowerCase(), email, plan: 'FREE' as Plan };
 

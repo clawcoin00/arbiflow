@@ -148,7 +148,7 @@ export default function HomePage() {
                 letterSpacing: '-0.02em',
               }}
             >
-              ArbiFlow
+              ArbsFlow
             </span>
           </Link>
 

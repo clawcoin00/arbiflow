@@ -13,7 +13,7 @@ export function Navbar() {
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center font-bold text-zinc-900">
             A
           </div>
-          <span className="text-xl font-bold">ArbiFlow</span>
+          <span className="text-xl font-bold">ArbsFlow</span>
         </Link>
 
         {/* Desktop Menu */}

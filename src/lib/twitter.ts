@@ -1,10 +1,9 @@
-// Twitter/X API integration for ArbiFlow
+// Twitter/X API integration for ArbsFlow
 // Supports posting alerts to Twitter/X
 
 import OAuth from 'oauth-1.0a';
 import * as crypto from 'crypto';
 
-const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
 const API_KEY = process.env.TWITTER_API_KEY;
 const API_SECRET = process.env.TWITTER_API_SECRET;
 const ACCESS_TOKEN = process.env.TWITTER_ACCESS_TOKEN;
@@ -35,7 +34,7 @@ export async function postTweet(text: string): Promise<TweetResult> {
     const url = 'https://api.twitter.com/2/tweets';
     const method = 'POST';
     const request_data = { url, method, data: { text } };
-    
+
     const authorization = oauthClient.authorize(request_data, {
       key: ACCESS_TOKEN,
       secret: ACCESS_TOKEN_SECRET,
@@ -46,7 +45,7 @@ export async function postTweet(text: string): Promise<TweetResult> {
     const res = await fetch(url, {
       method: 'POST',
       headers: {
-        'Authorization': authHeader.Authorization,
+        Authorization: authHeader.Authorization,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ text }),
@@ -64,8 +63,11 @@ export async function postTweet(text: string): Promise<TweetResult> {
       tweetId,
       url: `https://twitter.com/i/web/status/${tweetId}`,
     };
-  } catch (e: any) {
-    return { sent: false, error: e?.message || 'Unknown error' };
+  } catch (error: unknown) {
+    return {
+      sent: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
   }
 }
 
@@ -75,20 +77,20 @@ export async function postOpportunityAlert(
   edge: number,
   percentEdge: number,
 ): Promise<TweetResult> {
-  const text = `🚨 ArbiFlow Alert
+  const text = `Alert ArbsFlow
 
-📊 ${eventKey}
-🎯 ${outcome}
-📈 Edge: +${percentEdge.toFixed(2)}%
+${eventKey}
+${outcome}
+Edge: +${percentEdge.toFixed(2)}%
 
-💰 Cross-market opportunity detected
+Cross-market opportunity detected
 
-#ArbiFlow #Arbitrage #PredictionMarkets`;
+#ArbsFlow #Arbitrage #PredictionMarkets`;
 
   return postTweet(text);
 }
 
 // Simple test function
 export async function testTwitterConnection(): Promise<TweetResult> {
-  return postTweet('🤖 ArbiFlow is now connected to Twitter/X! Testing alert system.');
+  return postTweet('ArbsFlow is now connected to Twitter/X! Testing alert system.');
 }

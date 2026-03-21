@@ -320,7 +320,7 @@ export default function DashboardClient({ initialAuth }: DashboardClientProps) {
         <Link href="/" className="dashboard-sidebar-logo">
           <span className="dashboard-sidebar-mark">AF</span>
           <span className="dashboard-sidebar-logo-copy">
-            <strong>ARBIFLOW</strong>
+            <strong>ARBSFLOW</strong>
             <span>Real-Time Arbitrage</span>
           </span>
         </Link>
@@ -390,7 +390,7 @@ export default function DashboardClient({ initialAuth }: DashboardClientProps) {
         <header className="dashboard-ticker">
           <div className="dashboard-brand">
             <span className="dashboard-brand-mark">AF</span>
-            <strong>ARBIFLOW</strong>
+            <strong>ARBSFLOW</strong>
           </div>
 
           <div className="dashboard-ticker-strip">
