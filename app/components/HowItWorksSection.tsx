@@ -10,6 +10,88 @@ type Step = {
   renderVisual: () => React.ReactNode;
 };
 
+type DetectionPoint = [number, number];
+
+const detectionUpperPoints: DetectionPoint[] = [
+  [0, 148],
+  [72, 134],
+  [138, 122],
+  [208, 116],
+  [278, 120],
+  [352, 118],
+  [434, 121],
+  [516, 124],
+  [590, 118],
+  [664, 104],
+  [734, 92],
+  [804, 86],
+  [874, 78],
+  [936, 84],
+  [1000, 82],
+];
+
+const detectionLowerPoints: DetectionPoint[] = [
+  [0, 164],
+  [72, 150],
+  [138, 138],
+  [208, 132],
+  [278, 136],
+  [352, 132],
+  [434, 134],
+  [516, 148],
+  [590, 196],
+  [664, 258],
+  [734, 352],
+  [804, 432],
+  [874, 470],
+  [936, 512],
+  [1000, 518],
+];
+
+const detectionGridY = [72, 176, 280, 384, 488];
+const detectionGridX = [136, 336, 536, 736, 936];
+
+function buildSmoothPath(points: DetectionPoint[]) {
+  if (points.length === 0) {
+    return '';
+  }
+
+  if (points.length === 1) {
+    return `M ${points[0][0]} ${points[0][1]}`;
+  }
+
+  let path = `M ${points[0][0]} ${points[0][1]}`;
+
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const previous = points[index - 1] ?? points[index];
+    const current = points[index];
+    const next = points[index + 1];
+    const upcoming = points[index + 2] ?? next;
+
+    const controlPointOneX = current[0] + (next[0] - previous[0]) / 6;
+    const controlPointOneY = current[1] + (next[1] - previous[1]) / 6;
+    const controlPointTwoX = next[0] - (upcoming[0] - current[0]) / 6;
+    const controlPointTwoY = next[1] - (upcoming[1] - current[1]) / 6;
+
+    path += ` C ${controlPointOneX} ${controlPointOneY}, ${controlPointTwoX} ${controlPointTwoY}, ${next[0]} ${next[1]}`;
+  }
+
+  return path;
+}
+
+function buildAreaPath(upper: DetectionPoint[], lower: DetectionPoint[]) {
+  const upperPath = upper.map(([x, y], index) => `${index === 0 ? 'M' : 'L'} ${x} ${y}`).join(' ');
+  const lowerPath = [...lower].reverse().map(([x, y]) => `L ${x} ${y}`).join(' ');
+
+  return `${upperPath} ${lowerPath} Z`;
+}
+
+const detectionUpperPath = buildSmoothPath(detectionUpperPoints);
+const detectionLowerPath = buildSmoothPath(detectionLowerPoints);
+const detectionAreaPath = buildAreaPath(detectionUpperPoints, detectionLowerPoints);
+const detectionUpperEnd = detectionUpperPoints[detectionUpperPoints.length - 1];
+const detectionLowerEnd = detectionLowerPoints[detectionLowerPoints.length - 1];
+
 function ScannerVisual() {
   return (
     <div className="protocol-visual protocol-visual-scanner">
@@ -62,7 +144,59 @@ function ScannerVisual() {
         </div>
 
         <div className="protocol-detection-body">
-          <div className="protocol-detection-graph" />
+          <div className="protocol-detection-graph" aria-hidden="true">
+            <div className="protocol-detection-sweep" />
+            <svg className="protocol-detection-svg" viewBox="0 0 1000 520" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="protocol-detection-fill-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.08" />
+                  <stop offset="58%" stopColor="#10b981" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity="0.28" />
+                </linearGradient>
+                <pattern id="protocol-detection-hatch" width="18" height="18" patternUnits="userSpaceOnUse">
+                  <path
+                    d="M-4 18 L18 -4 M4 22 L22 4 M-8 10 L10 -8"
+                    fill="none"
+                    stroke="rgba(110, 231, 183, 0.22)"
+                    strokeWidth="2"
+                  />
+                  <animateTransform
+                    attributeName="patternTransform"
+                    type="translate"
+                    values="0 0;18 0;0 0"
+                    dur="5.8s"
+                    repeatCount="indefinite"
+                  />
+                </pattern>
+              </defs>
+
+              <g className="protocol-detection-grid-lines">
+                {detectionGridY.map((y) => (
+                  <line key={`grid-y-${y}`} x1="0" y1={y} x2="1000" y2={y} />
+                ))}
+                {detectionGridX.map((x) => (
+                  <line key={`grid-x-${x}`} x1={x} y1="0" x2={x} y2="520" />
+                ))}
+              </g>
+
+              <path className="protocol-detection-area" d={detectionAreaPath} />
+              <path className="protocol-detection-area-hatch" d={detectionAreaPath} />
+              <path className="protocol-detection-line protocol-detection-line-upper" d={detectionUpperPath} />
+              <path className="protocol-detection-line protocol-detection-line-lower" d={detectionLowerPath} />
+              <circle
+                className="protocol-detection-node protocol-detection-node-upper"
+                cx={detectionUpperEnd[0]}
+                cy={detectionUpperEnd[1]}
+                r="8"
+              />
+              <circle
+                className="protocol-detection-node protocol-detection-node-lower"
+                cx={detectionLowerEnd[0]}
+                cy={detectionLowerEnd[1]}
+                r="7"
+              />
+            </svg>
+          </div>
           <div className="protocol-detection-copy">
             <strong>ARB DETECTED</strong>
             <span>10.7% spread</span>
@@ -70,6 +204,7 @@ function ScannerVisual() {
             <small>Execution window open now</small>
           </div>
         </div>
+        <span className="protocol-telegram-live-badge">LIVE</span>
       </div>
 
       <div className="protocol-panel-footer">
@@ -87,7 +222,46 @@ function MathVisual() {
   return (
     <div className="protocol-visual protocol-visual-math">
       <div className="protocol-market-head">
-        <div className="protocol-market-brand">RB</div>
+        <div className="protocol-market-brand" aria-hidden="true">
+          <svg className="protocol-market-brand-logo" viewBox="0 0 168 92" role="presentation" focusable="false">
+            <defs>
+              <linearGradient id="protocol-market-brand-surface" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" />
+                <stop offset="100%" stopColor="#f5f7fb" />
+              </linearGradient>
+            </defs>
+
+            <rect x="2" y="2" width="164" height="88" rx="18" fill="url(#protocol-market-brand-surface)" />
+
+            <circle cx="64" cy="28" r="16" fill="#fbbf24" />
+            <circle cx="88" cy="28" r="16" fill="#fbbf24" />
+
+            <path
+              d="M18 35 L30 25 L46 24 L40 30 L54 33 L39 37 L32 46 L18 46 L24 38 L12 36 Z"
+              fill="#ef233c"
+            />
+            <path
+              d="M134 35 L122 25 L106 24 L112 30 L98 33 L113 37 L120 46 L134 46 L128 38 L140 36 Z"
+              fill="#ef233c"
+            />
+
+            <path d="M42 18 L48 12 L46 20 Z" fill="#ef233c" />
+            <path d="M126 18 L120 12 L122 20 Z" fill="#ef233c" />
+
+            <text
+              x="84"
+              y="72"
+              textAnchor="middle"
+              fill="#ef233c"
+              fontSize="25"
+              fontWeight="900"
+              fontFamily="Arial, Helvetica, sans-serif"
+              letterSpacing="-1"
+            >
+              RedBull
+            </text>
+          </svg>
+        </div>
         <div>
           <span className="protocol-market-label">MARKET</span>
           <h3>F1 Constructors Champion - Red Bull Racing</h3>
@@ -167,34 +341,78 @@ function AlertVisual() {
       </div>
 
       <div className="protocol-telegram-header">
-        <div className="protocol-telegram-avatar">A</div>
+        <div className="protocol-telegram-avatar">AF</div>
         <div>
-          <strong>ARBSXYZ Bot</strong>
+          <strong>ArbiFlow Bot</strong>
           <span>bot • live notifications</span>
         </div>
       </div>
 
       <div className="protocol-telegram-feed">
+        <div className="protocol-telegram-feed-track">
         <div className="protocol-telegram-card protocol-telegram-card-highlight">
           <span>Lock in your $291 Profit</span>
-          <button>Click to Sell</button>
+          <button>
+            <svg className="protocol-telegram-button-icon" viewBox="0 0 16 16" role="presentation" focusable="false">
+              <path
+                d="M14.4 2.1 1.8 7.2c-.8.3-.7 1.4.2 1.6l4.6 1.1 1.1 4.6c.2.9 1.3 1 1.6.2l5.1-12.6c.3-.8-.5-1.6-1.3-1.3Z"
+                fill="currentColor"
+              />
+              <path d="M6.9 9.1 14 2" stroke="#04110a" strokeWidth="1.2" strokeLinecap="round" />
+            </svg>
+            Click to Sell
+          </button>
           <small>Watching Divergence</small>
         </div>
 
-        <div className="protocol-telegram-card">
+        <div className="protocol-telegram-card protocol-telegram-card-event">
           <strong>Peak Detected: MegaETH FDV &gt; $1B</strong>
           <p>16.4% Spread • $402 EV</p>
           <div className="protocol-telegram-lines">
             <span>Polymarket YES</span>
             <span>$1627 @ $0.54</span>
-            <span>Opinion NO</span>
+            <span>Kalshi NO</span>
             <span>$873 @ $0.29</span>
           </div>
         </div>
 
-        <div className="protocol-telegram-card">
+        <div className="protocol-telegram-card protocol-telegram-card-fill">
+          <span className="protocol-telegram-card-eyebrow">Trade Filled</span>
+          <strong>Position synced across both books</strong>
+          <div className="protocol-telegram-lines">
+            <span>Polymarket YES</span>
+            <span>$1647 @ $0.56</span>
+            <span>Kalshi NO</span>
+            <span>$853 @ $0.29</span>
+          </div>
+        </div>
+
+        <div className="protocol-telegram-card protocol-telegram-card-highlight protocol-telegram-card-highlight-secondary">
+          <span>Lock in your $186 Profit</span>
+          <button>
+            <svg className="protocol-telegram-button-icon" viewBox="0 0 16 16" role="presentation" focusable="false">
+              <path
+                d="M14.4 2.1 1.8 7.2c-.8.3-.7 1.4.2 1.6l4.6 1.1 1.1 4.6c.2.9 1.3 1 1.6.2l5.1-12.6c.3-.8-.5-1.6-1.3-1.3Z"
+                fill="currentColor"
+              />
+              <path d="M6.9 9.1 14 2" stroke="#04110a" strokeWidth="1.2" strokeLinecap="round" />
+            </svg>
+            Click to Sell
+          </button>
+          <small>Entry Filled</small>
+        </div>
+
+        <div className="protocol-telegram-card protocol-telegram-card-exit">
           <strong>Exit Window Open</strong>
           <p>Liquidity improved on both books. Close now to realize profit.</p>
+          <div className="protocol-telegram-status-row">
+            <span>Latency 41ms</span>
+            <span>Route stable</span>
+          </div>
+        </div>
+        </div>
+        <div className="protocol-telegram-scrollbar" aria-hidden="true">
+          <span />
         </div>
       </div>
     </div>
