@@ -3,59 +3,90 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, startTransition, useEffect, useState, type FormEvent } from 'react';
+import { BrandLogo } from '@/src/components/BrandLogo';
 import { AUTH_LOGIN_HREF, AUTH_SIGNUP_HREF, DASHBOARD_HREF, USER_EMAIL_STORAGE_KEY } from '@/src/lib/routes';
 import { getSupabaseBrowserClient } from '@/src/lib/supabase/client';
 import { isSupabaseConfigured } from '@/src/lib/supabase/env';
 
 type AuthMode = 'login' | 'signup';
+type AuthErrorDetails = {
+  code: string;
+  message: string;
+};
 
 function resolveMode(rawMode: string | null): AuthMode {
   return rawMode === 'login' ? 'login' : 'signup';
 }
 
-function resolveAuthError(rawError: string | null) {
-  const normalizedError = rawError?.toLowerCase?.() ?? '';
+function resolveAuthError(rawError: string | AuthErrorDetails | null) {
+  const candidates =
+    typeof rawError === 'string'
+      ? [rawError]
+      : rawError
+        ? [rawError.code, rawError.message]
+        : [];
+  const normalizedCandidates = candidates
+    .map((value) => value?.trim())
+    .filter(Boolean)
+    .map((value) => value.toLowerCase());
 
-  if (rawError === 'account_not_found') return 'No account found for this email. Switch to Sign Up first.';
-  if (rawError === 'invalid_email') return 'Enter a valid email address.';
-  if (rawError === 'email_address_invalid') return 'Supabase rejected this email address. Try another valid address.';
-  if (rawError === 'invalid_credentials') return 'The email or password is incorrect.';
-  if (rawError === 'email_not_confirmed') return 'This account still needs email confirmation.';
-  if (normalizedError === 'weak_password' || normalizedError.includes('password should')) {
+  if (candidates.includes('account_not_found')) return 'No account found for this email. Switch to Sign Up first.';
+  if (candidates.includes('invalid_email')) return 'Enter a valid email address.';
+  if (candidates.includes('email_address_invalid')) return 'Supabase rejected this email address. Try another valid address.';
+  if (candidates.includes('invalid_credentials')) return 'The email or password is incorrect.';
+  if (candidates.includes('email_not_confirmed')) return 'This account still needs email confirmation.';
+  if (normalizedCandidates.some((value) => value === 'weak_password' || value.includes('password should'))) {
     return 'Choose a stronger password before continuing.';
   }
   if (
-    normalizedError === 'user_already_exists' ||
-    normalizedError === 'email_exists' ||
-    normalizedError.includes('already registered')
+    normalizedCandidates.some(
+      (value) => value === 'user_already_exists' || value === 'email_exists' || value.includes('already registered'),
+    )
   ) {
     return 'This email already has an account. Switch to Log In.';
   }
-  if (rawError === 'over_email_send_rate_limit') {
+  if (candidates.includes('over_email_send_rate_limit')) {
     return 'Supabase hit the email send limit for this project. Wait a bit before trying again.';
   }
-  if (rawError === 'email_address_not_authorized' || rawError === 'email_not_authorized') {
+  if (candidates.includes('supabase_admin_not_configured')) {
+    return 'Server-side signup is not configured yet. Add SUPABASE_SERVICE_ROLE_KEY before using direct password signup.';
+  }
+  if (candidates.includes('email_address_not_authorized') || candidates.includes('email_not_authorized')) {
     return 'This project is still using Supabase default email sending. Add custom SMTP or use a team member email.';
   }
-  if (rawError === 'auth_callback_failed') return 'We could not confirm your email link. Request a new one.';
-  if (rawError === 'missing_code') return 'The login link is incomplete. Request a new one.';
-  if (rawError === 'supabase_not_configured') {
+  if (normalizedCandidates.some((value) => value.includes('error sending confirmation email'))) {
+    return 'Supabase could not send the confirmation email. Configure custom SMTP in Supabase Auth before public sign-ups will work.';
+  }
+  if (candidates.includes('unexpected_failure')) {
+    return 'Supabase failed while processing authentication. Check Auth logs for the underlying SMTP or database error.';
+  }
+  if (candidates.includes('auth_callback_failed')) return 'We could not confirm your email link. Request a new one.';
+  if (candidates.includes('missing_code')) return 'The login link is incomplete. Request a new one.';
+  if (candidates.includes('supabase_not_configured')) {
     return 'Supabase is not configured yet. Add your project URL and publishable key to continue.';
   }
   return '';
 }
 
-function extractErrorCode(caughtError: unknown) {
+function extractAuthErrorDetails(caughtError: unknown): AuthErrorDetails {
+  let code = '';
+  let message = '';
+
   if (caughtError && typeof caughtError === 'object' && 'code' in caughtError) {
-    const code = Reflect.get(caughtError, 'code');
-    return typeof code === 'string' ? code : '';
+    const rawCode = Reflect.get(caughtError, 'code');
+    code = typeof rawCode === 'string' ? rawCode : '';
+  }
+
+  if (caughtError && typeof caughtError === 'object' && 'message' in caughtError) {
+    const rawMessage = Reflect.get(caughtError, 'message');
+    message = typeof rawMessage === 'string' ? rawMessage : '';
   }
 
   if (caughtError instanceof Error) {
-    return caughtError.message;
+    message = caughtError.message;
   }
 
-  return '';
+  return { code, message };
 }
 
 function resolveMagicLinkNotice(mode: AuthMode) {
@@ -189,12 +220,20 @@ function AuthScreen() {
         }
 
         if (mode === 'signup' && password.trim()) {
-          const { data, error: authError } = await supabase.auth.signUp({
+          const response = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ email: normalizedEmail, password }),
+          });
+          const payload = await response.json();
+
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload.error || 'signup_failed');
+          }
+
+          const { error: authError } = await supabase.auth.signInWithPassword({
             email: normalizedEmail,
             password,
-            options: {
-              emailRedirectTo: callbackUrl.toString(),
-            },
           });
 
           if (authError) {
@@ -202,14 +241,9 @@ function AuthScreen() {
           }
 
           window.localStorage.setItem(USER_EMAIL_STORAGE_KEY, normalizedEmail);
-          if (data.session) {
-            startTransition(() => {
-              router.replace(DASHBOARD_HREF);
-            });
-            return;
-          }
-
-          setNotice(resolveMagicLinkNotice(mode));
+          startTransition(() => {
+            router.replace(DASHBOARD_HREF);
+          });
           return;
         }
 
@@ -254,7 +288,7 @@ function AuthScreen() {
         router.push(DASHBOARD_HREF);
       });
     } catch (caughtError) {
-      const message = resolveAuthError(extractErrorCode(caughtError));
+      const message = resolveAuthError(extractAuthErrorDetails(caughtError));
       setError(message || 'Unable to continue right now. Try again.');
       setNotice('');
     } finally {
@@ -285,7 +319,7 @@ function AuthScreen() {
       <div className="auth-grid">
         <section className="auth-hero">
           <Link href="/" className="auth-brand-pill">
-            <span className="auth-brand-icon">A</span>
+            <BrandLogo variant="mark" height={28} alt="ArbsFlow mark" />
             <span>ASYMMETRIC ARBITRAGE</span>
           </Link>
 
@@ -388,7 +422,7 @@ function AuthScreen() {
                   />
                   <p className="auth-form-hint">
                     {mode === 'signup'
-                      ? 'We will create your account right away and send a confirmation email if your project requires it.'
+                      ? 'We create your account immediately and sign you in right away.'
                       : 'Leave this blank if you want a magic link instead.'}
                   </p>
                 </div>

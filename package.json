@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run env:sync && next dev",
+    "dev:raw": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "env:sync": "node scripts/env-manager.mjs sync-local",
+    "env:example": "node scripts/env-manager.mjs write-example"
   },
   "dependencies": {
     "@prisma/client": "^7.5.0",

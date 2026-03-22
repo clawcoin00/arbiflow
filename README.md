@@ -9,7 +9,6 @@ Arbitrage opportunity monitor for **Polymarket vs Kalshi**.
 
 ```bash
 npm install
-cp .env.example .env.local
 npm run dev
 ```
 
@@ -17,11 +16,30 @@ Open: http://localhost:3000
 
 ## Environment
 
-Set in `.env.local`:
+`npm run dev` now refreshes `.env.local` from the linked Vercel project's `production` environment before starting Next.js. If Vercel is unavailable, the app keeps using the last synced `.env.local`.
+
+Useful commands:
+
+```bash
+# Pull production env into .env.local on demand
+npm run env:sync
+
+# Regenerate .env.example after changing the env manifest
+npm run env:example
+
+# Skip the sync if you explicitly want to run against the current local file
+npm run dev:raw
+```
+
+Use `.env.local.override` only for deliberate local-only deviations. Anything in that file wins over the synced production values.
+Vercel runtime-managed variables such as `VERCEL_*` stay managed by the platform and are not written into `.env.local`.
+
+`.env.example` documents the environment surface:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+NEXT_PUBLIC_BASE_URL=https://your-domain.vercel.app
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 TELEGRAM_BOT_TOKEN=...
@@ -40,11 +58,18 @@ PREDICTFUN_API_KEY=
 LIMITLESS_API_BASE=
 LIMITLESS_API_KEY=
 
+DATABASE_URL="file:./dev.db"
+
 STRIPE_SECRET_KEY=
 STRIPE_PRICE_PRO_WEEKLY=
 STRIPE_PRICE_PRO_MONTHLY=
 STRIPE_PRICE_PRO_ANNUAL=
 STRIPE_WEBHOOK_SECRET=
+
+TWITTER_API_KEY=
+TWITTER_API_SECRET=
+TWITTER_ACCESS_TOKEN=
+TWITTER_ACCESS_TOKEN_SECRET=
 ```
 
 `Opinion`, `Predict.fun`, and `Limitless` need API credentials for live data; without them, the dashboard keeps showing the multi-venue demo feed.

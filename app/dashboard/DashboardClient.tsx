@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { startTransition, useEffect, useState } from 'react';
+import { BrandLogo } from '@/src/components/BrandLogo';
 import { AUTH_LOGIN_HREF, USER_EMAIL_STORAGE_KEY } from '@/src/lib/routes';
 import { getSupabaseBrowserClient } from '@/src/lib/supabase/client';
 import { isSupabaseConfigured } from '@/src/lib/supabase/env';
@@ -318,7 +319,7 @@ export default function DashboardClient({ initialAuth }: DashboardClientProps) {
     <main className="dashboard-page">
       <aside className="dashboard-sidebar">
         <Link href="/" className="dashboard-sidebar-logo">
-          <span className="dashboard-sidebar-mark">AF</span>
+          <BrandLogo variant="mark" height={36} alt="ArbsFlow mark" />
           <span className="dashboard-sidebar-logo-copy">
             <strong>ARBSFLOW</strong>
             <span>Real-Time Arbitrage</span>
@@ -389,7 +390,7 @@ export default function DashboardClient({ initialAuth }: DashboardClientProps) {
       <div className="dashboard-shell">
         <header className="dashboard-ticker">
           <div className="dashboard-brand">
-            <span className="dashboard-brand-mark">AF</span>
+            <BrandLogo variant="mark" height={28} alt="ArbsFlow mark" />
             <strong>ARBSFLOW</strong>
           </div>
 

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { BrandLogo } from '@/src/components/BrandLogo';
 import { AUTH_LOGIN_HREF, AUTH_SIGNUP_HREF, DASHBOARD_HREF, USER_EMAIL_STORAGE_KEY } from '@/src/lib/routes';
 import styles from './pricing.module.css';
 
@@ -197,8 +198,7 @@ export default function PricingPage() {
             </Link>
 
             <Link href="/" className={styles.brand}>
-              <span className={styles.brandMark}>AF</span>
-              <span className={styles.brandText}>ArbsFlow</span>
+              <BrandLogo variant="full" height={32} />
             </Link>
           </div>
 

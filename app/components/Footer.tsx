@@ -1,13 +1,12 @@
+import { BrandLogo } from '@/src/components/BrandLogo';
+
 export function Footer() {
   return (
     <footer className="border-t border-zinc-800 bg-zinc-950/50">
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center font-bold text-zinc-900 text-xs">
-              A
-            </div>
-            <span className="font-semibold">ArbsFlow</span>
+          <div className="flex items-center">
+            <BrandLogo variant="full" height={22} />
           </div>
           <p className="text-zinc-500 text-sm">(c) 2026 ArbsFlow. Real-time arbitrage alerts for prediction markets.</p>
           <div className="flex items-center gap-4">

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { BrandLogo } from '@/src/components/BrandLogo';
 import { AUTH_SIGNUP_HREF, USER_EMAIL_STORAGE_KEY } from '@/src/lib/routes';
 import { CaptureNetworkSection } from './components/CaptureNetworkSection';
 import { EngineModulesSection } from './components/EngineModulesSection';
@@ -115,41 +116,11 @@ export default function HomePage() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
               textDecoration: 'none',
               color: 'inherit',
             }}
           >
-            <div
-              style={{
-                width: '28px',
-                height: '28px',
-                background: 'linear-gradient(135deg, #22c55e 0%, #4ade80 100%)',
-                borderRadius: '6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <span
-                style={{
-                  fontWeight: 700,
-                  fontSize: '10px',
-                  color: '#000',
-                }}
-              >
-                AF
-              </span>
-            </div>
-            <span
-              style={{
-                fontWeight: 800,
-                fontSize: '16px',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              ArbsFlow
-            </span>
+            <BrandLogo variant="full" height={28} priority />
           </Link>
 
           <Link

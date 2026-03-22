@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'ArbsFlow - Real-Time Arbitrage Alerts',
   description: 'Detect arbitrage opportunities between Polymarket and Kalshi with real-time alerts.',
-  icons: { icon: '/favicon.ico' },
+  icons: { icon: '/brand/arbsflow-mark.svg' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

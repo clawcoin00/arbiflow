@@ -10,7 +10,6 @@ export async function GET() {
   return Response.json({
     ok: true,
     configured: !!(
-      process.env.TWITTER_BEARER_TOKEN &&
       process.env.TWITTER_API_KEY &&
       process.env.TWITTER_API_SECRET &&
       process.env.TWITTER_ACCESS_TOKEN &&

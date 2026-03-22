@@ -8,6 +8,27 @@ function resolveBillingInterval(rawValue: unknown): BillingInterval {
   return 'monthly';
 }
 
+function resolveAppOrigin(req: Request) {
+  const requestUrl = new URL(req.url);
+  const forwardedHost = req.headers.get('x-forwarded-host');
+
+  if (forwardedHost) {
+    const forwardedProto = req.headers.get('x-forwarded-proto') || requestUrl.protocol.replace(':', '');
+    return `${forwardedProto}://${forwardedHost}`;
+  }
+
+  if (requestUrl.origin && requestUrl.origin !== 'null') {
+    return requestUrl.origin;
+  }
+
+  const configuredOrigin = process.env.NEXT_PUBLIC_BASE_URL?.trim();
+  if (configuredOrigin) {
+    return configuredOrigin.replace(/\/$/, '');
+  }
+
+  return 'http://localhost:3000';
+}
+
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const email = String(body.email || '').trim();
@@ -22,7 +43,7 @@ export async function POST(req: Request) {
   }
 
   const stripe = getStripe();
-  const origin = process.env.NEXT_PUBLIC_BASE_URL || 'https://arbsflow.online';
+  const origin = resolveAppOrigin(req);
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
